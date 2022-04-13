@@ -6,14 +6,18 @@ import Dialogs from "./Dialogs/Dialogs";
 import News from "./News/News";
 import Music from "./Music/Music";
 import Setting from "./Setting/Setting";
+import {RootStateType} from '../../redux/state';
 
-const Body = () => {
+type BodyPropsTupe = {
+    state:RootStateType
+}
+
+const Body = (props:BodyPropsTupe) => {
     return (
         <div className={s.content}>
             <Routes>
-                <Route path="/" element={<Profile/>}/>
-                <Route path="/profile" element={<Profile/>}/>
-                <Route path="/dialogs" element={<Dialogs/>}/>
+                <Route path="/profile" element={<Profile profilePage={props.state.profilePage}/>}/>
+                <Route path="/dialogs" element={<Dialogs dialogsPage={props.state.dialogsPage}/>}/>
                 <Route path="/news" element={<News/>}/>
                 <Route path="/music" element={<Music/>}/>
                 <Route path="/setting" element={<Setting/>}/>

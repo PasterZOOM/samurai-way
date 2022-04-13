@@ -3,10 +3,11 @@
     background-color: #cbd4db;
     padding: 20px;
 }
-.item a{
+.item{
     color: #ffffff;
     text-decoration: none;
 }
-a.active{
+.active{
     color: #6b8d5e;
+    text-decoration: none;
 }

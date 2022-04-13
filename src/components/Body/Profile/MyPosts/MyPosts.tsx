@@ -2,13 +2,18 @@ import React from 'react';
 import NewPost from "./NewPost/NewPost";
 import Post from "./Post/Post";
 import s from "./MyPosts.module.css";
+import {ProfilePageType} from '../../../../redux/state';
 
-const MyPosts = () => {
+
+const MyPosts = (props:ProfilePageType) => {
+
+    let postElement =
+        props.post.map(p=><Post message={p.message} likes={p.likes}/>)
+
     return (
         <div className={s.content}>
             <NewPost/>
-            <Post message="Its my first post" likes={32}/>
-            <Post message="Its my cecond post" likes={54}/>
+            {postElement}
         </div>
     )
 
