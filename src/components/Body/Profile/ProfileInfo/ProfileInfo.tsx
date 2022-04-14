@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './Profile.module.css';
-import HatPage from "./HatPage/HatPage";
-import Description from "./Description/Description";
+import HatPage from './HatPage/HatPage';
+import Description from './Description/Description';
 
 
 const ProfileInfo = () => {

@@ -1,19 +1,16 @@
 import './App.css';
-import Header from "./components/Header/Header";
-import Navbar from "./components/Navbar/Navbar";
-import Body from "./components/Body/Body";
+import Header from './components/Header/Header';
+import Navbar from './components/Navbar/Navbar';
+import Body from './components/Body/Body';
 import {RootStateType} from './redux/state';
 
-type AppPropsType={
-    state:RootStateType
-}
-const App = (props:AppPropsType) => {
+const App = (props: RootStateType) => {
     return (
-            <div className='app-wrapper'>
-                <Header/>
-                <Navbar/>
-                <Body state={props.state}/>
-            </div>
+        <div className="app-wrapper">
+            <Header/>
+            <Navbar/>
+            <Body state={props.state}/>
+        </div>
     );
 }
 

@@ -7,7 +7,8 @@ import {ProfilePageType} from '../../../redux/state';
 type ProfilePropsType ={
     profilePage:ProfilePageType
 }
-const Profile = (props:ProfilePropsType) => {
+
+const Profile = (props: ProfilePropsType) => {
     return (
         <div className={s.content}>
             <ProfileInfo/>
