@@ -4,10 +4,10 @@ import {NavLink} from 'react-router-dom';
 import {DialogsType} from '../../../../redux/state';
 
 
-const Dialog = (props: DialogsType) => {
+const Dialog:React.FC<DialogsType> = ({id,name}) => {
     return (
         <div className={s.dialog}>
-            <NavLink to={'/dialogs/' + props.id}>{props.name}</NavLink>
+            <NavLink to={'/dialogs/' + id}>{name}</NavLink>
         </div>
     )
 }

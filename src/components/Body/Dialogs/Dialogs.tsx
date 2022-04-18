@@ -8,11 +8,11 @@ type DialogsPropsType = {
     dialogsPage: DialogsPageType
 }
 
-const Dialogs = (props: DialogsPropsType) => {
+const Dialogs:React.FC<DialogsPropsType> = ({dialogsPage}) => {
     let dialogsElement =
-        props.dialogsPage.dialogs.map(d => <Dialog name={d.name} id={d.id}/>)
+        dialogsPage.dialogs.map(d => <Dialog name={d.name} id={d.id}/>)
     let messagesElement =
-        props.dialogsPage.messages.map(m => <Message message={m.message}/>)
+        dialogsPage.messages.map(m => <Message message={m.message}/>)
 
     return (
         <div className={s.dialogs}>

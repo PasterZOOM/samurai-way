@@ -5,10 +5,10 @@ import s from './MyPosts.module.css';
 import {ProfilePageType} from '../../../../redux/state';
 
 
-const MyPosts = (props: ProfilePageType) => {
+const MyPosts : React.FC <ProfilePageType> = ({post}) => {
 
     let postElement =
-        props.post.map(p => <Post message={p.message} likes={p.likes}/>)
+        post.map(p => <Post message={p.message} likes={p.likes}/>)
 
     return (
         <div className={s.content}>
