@@ -6,14 +6,22 @@ import Dialogs from './Dialogs/Dialogs';
 import News from './News/News';
 import Music from './Music/Music';
 import Setting from './Setting/Setting';
-import {RootStateType} from '../../redux/state';
+import {StateType} from '../../redux/state';
 
-const Body: React.FC<RootStateType> = ({state}) => {
+type BodyPropsType = {
+    state: StateType
+    addPostCallBack: (postMessage: string) => void
+    addMessageCallBack: (messageText: string) => void
+}
+
+const Body: React.FC<BodyPropsType> = ({state, addPostCallBack, addMessageCallBack}) => {
     return (
         <div className={s.content}>
             <Routes>
-                <Route path="/profile" element={<Profile profilePage={state.profilePage}/>}/>
-                <Route path="/dialogs" element={<Dialogs dialogsPage={state.dialogsPage}/>}/>
+                <Route path="/profile" element={<Profile profilePage={state.profilePage}
+                                                         addPostCallBack={addPostCallBack}/>}/>
+                <Route path="/dialogs" element={<Dialogs dialogsPage={state.dialogsPage}
+                                                         addMessageCallBack={addMessageCallBack}/>}/>
                 <Route path="/news" element={<News/>}/>
                 <Route path="/music" element={<Music/>}/>
                 <Route path="/setting" element={<Setting/>}/>

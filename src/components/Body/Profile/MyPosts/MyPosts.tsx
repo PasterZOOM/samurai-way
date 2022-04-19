@@ -2,17 +2,23 @@ import React from 'react';
 import NewPost from './NewPost/NewPost';
 import Post from './Post/Post';
 import s from './MyPosts.module.css';
-import {ProfilePageType} from '../../../../redux/state';
+import {PostType} from '../../../../redux/state';
 
+type MyPostsPropsType = {
+    post: PostType[]
+    addPostCallBack: (postMessage: string) => void
+}
 
-const MyPosts : React.FC <ProfilePageType> = ({post}) => {
+const MyPosts: React.FC<MyPostsPropsType> = ({post, addPostCallBack}) => {
 
     let postElement =
-        post.map(p => <Post message={p.message} likes={p.likes}/>)
+        post.map(p => <Post key={p.id}
+                            message={p.message}
+                            likes={p.likes}/>)
 
     return (
         <div className={s.content}>
-            <NewPost/>
+            <NewPost addPostCallBack={addPostCallBack}/>
             {postElement}
         </div>
     )
