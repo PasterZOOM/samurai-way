@@ -1,26 +1,29 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './NewPost.module.css';
 
 type NewPostPropsType = {
     addPostCallBack: (postMessage: string) => void
+    newPostTextCallBack: (newText: string) => void
+    newPostText: string
 }
 
-const NewPost: React.FC<NewPostPropsType> = ({addPostCallBack}) => {
+const NewPost: React.FC<NewPostPropsType> = ({addPostCallBack, newPostTextCallBack, newPostText}) => {
 
-    let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPostOnClick = () => {
-        if (newPostElement.current) {
-            let postMessage = newPostElement.current.value
-            addPostCallBack(postMessage)
-            newPostElement.current.value = ('')
-        }
+        addPostCallBack(newPostText)
+
+    }
+
+    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        newPostTextCallBack(e.currentTarget.value)
     }
 
     return (
         <div className={s.content}>
             <div>
-                <textarea ref={newPostElement}/>
+                <textarea value={newPostText}
+                          onChange={onPostChange}/>
             </div>
             <div>
                 <button onClick={addPostOnClick}>New Post</button>

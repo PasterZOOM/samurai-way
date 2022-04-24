@@ -12,14 +12,17 @@ type BodyPropsType = {
     state: StateType
     addPostCallBack: (postMessage: string) => void
     addMessageCallBack: (messageText: string) => void
+    newPostTextCallBack: (newText:string) => void
 }
 
-const Body: React.FC<BodyPropsType> = ({state, addPostCallBack, addMessageCallBack}) => {
+const Body: React.FC<BodyPropsType> = ({state, addPostCallBack, addMessageCallBack, newPostTextCallBack}) => {
     return (
         <div className={s.content}>
             <Routes>
                 <Route path="/profile" element={<Profile profilePage={state.profilePage}
-                                                         addPostCallBack={addPostCallBack}/>}/>
+                                                         addPostCallBack={addPostCallBack}
+                                                         newPostTextCallBack={newPostTextCallBack}/>}
+                />
                 <Route path="/dialogs" element={<Dialogs dialogsPage={state.dialogsPage}
                                                          addMessageCallBack={addMessageCallBack}/>}/>
                 <Route path="/news" element={<News/>}/>

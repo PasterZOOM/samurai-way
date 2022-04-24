@@ -10,9 +10,11 @@ type AppPropsType = {
     state: StateType
     addPostCallBack: (postMessage: string) => void
     addMessageCallBack: (messageText: string) => void
+    newPostTextCallBack: (newText:string) => void
 }
 
-const App: React.FC<AppPropsType> = ({state, addPostCallBack, addMessageCallBack}) => {
+const App: React.FC<AppPropsType> =
+    ({state, addPostCallBack, addMessageCallBack, newPostTextCallBack}) => {
     return (
         <div className="app-wrapper">
             <Header/>
@@ -20,6 +22,7 @@ const App: React.FC<AppPropsType> = ({state, addPostCallBack, addMessageCallBack
             <Body state={state}
                   addPostCallBack={addPostCallBack}
                   addMessageCallBack={addMessageCallBack}
+                  newPostTextCallBack={newPostTextCallBack}
             />
         </div>
     );
