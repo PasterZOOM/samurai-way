@@ -6,11 +6,11 @@ import {PostType} from '../../../../redux/state';
 
 type MyPostsPropsType = {
     post: PostType[]
-    newPostText:string
-    dispatch: (action:any) => void
+    newPostText: string
+    dispatch: (action: any) => void
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = ({post, newPostText,dispatch}) => {
+const MyPosts: React.FC<MyPostsPropsType> = ({post, newPostText, dispatch}) => {
 
     let postElement =
         post.map(p => <Post key={p.id}

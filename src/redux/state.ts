@@ -31,9 +31,9 @@ export type StateType = {
 
 export type ActionType =
     ReturnType<typeof updateNewPostTextActionCreator>
+    | ReturnType<typeof addPostActionCreator>
     | ReturnType<typeof updateNewMessageBodyActionCreator>
-| ReturnType<typeof addPostActionCreator>
-| ReturnType <typeof sendNewMessageBodyActionCreator>
+    | ReturnType<typeof sendNewMessageBodyActionCreator>
 
 export type StoreType = {
     _state: StateType
@@ -78,7 +78,7 @@ let store: StoreType = {
         this._callSubscriber = observer
     },
 
-    dispatch(action:ActionType) {
+    dispatch(action: ActionType) {
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
         this._callSubscriber(this._state)

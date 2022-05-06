@@ -10,10 +10,10 @@ import {StateType} from '../../redux/state';
 
 type BodyPropsType = {
     state: StateType
-    dispatch: (action:any) => void
+    dispatch: (action: any) => void
 }
 
-const Body: React.FC<BodyPropsType> = ({state,dispatch}) => {
+const Body: React.FC<BodyPropsType> = ({state, dispatch}) => {
     return (
         <div className={s.content}>
             <Routes>

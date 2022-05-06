@@ -6,7 +6,7 @@ import {BrowserRouter} from 'react-router-dom';
 import store from './redux/state';
 
 
-export const renderEntiredTree = () => {
+export const renderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
             <React.StrictMode>
@@ -19,5 +19,5 @@ export const renderEntiredTree = () => {
     );
 }
 
-store.subscribe(renderEntiredTree)
-renderEntiredTree()
+store.subscribe(renderEntireTree)
+renderEntireTree()

@@ -2,8 +2,8 @@ import {v1} from 'uuid';
 import {ActionType, DialogsPageType} from './state';
 
 
-const SEND_MESSAGE = 'SEND_MESSAGE';
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
+export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
 
 export const dialogsReducer = (state: DialogsPageType, action: ActionType) => {
 
@@ -22,4 +22,7 @@ export const dialogsReducer = (state: DialogsPageType, action: ActionType) => {
 }
 
 export const sendNewMessageBodyActionCreator = () => ({type: SEND_MESSAGE} as const)
-export const updateNewMessageBodyActionCreator = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body} as const)
+export const updateNewMessageBodyActionCreator = (body: string) => ({
+    type: UPDATE_NEW_MESSAGE_BODY,
+    body: body
+} as const)
