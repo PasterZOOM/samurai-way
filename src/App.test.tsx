@@ -1,13 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import App from './App';
-import state, {addMessage, addPost, changeNewPostText} from './redux/state';
+import store from './redux/state';
 
 test('renders learn react link', () => {
-  render(<App state={state}
-              addPostCallBack={addPost}
-              addMessageCallBack={addMessage}
-              newPostTextCallBack={changeNewPostText}/>);
+  render(<App state={store._state}
+              dispatch={store.dispatch.bind(store)}
+  />);
   const linkElement = screen.getByText(/learn react/i);
   expect(linkElement).toBeInTheDocument();
 });

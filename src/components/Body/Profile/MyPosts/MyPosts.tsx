@@ -6,12 +6,11 @@ import {PostType} from '../../../../redux/state';
 
 type MyPostsPropsType = {
     post: PostType[]
-    addPostCallBack: (postMessage: string) => void
-    newPostTextCallBack: (newText:string) => void
     newPostText:string
+    dispatch: (action:any) => void
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = ({post, addPostCallBack, newPostTextCallBack,newPostText}) => {
+const MyPosts: React.FC<MyPostsPropsType> = ({post, newPostText,dispatch}) => {
 
     let postElement =
         post.map(p => <Post key={p.id}
@@ -20,9 +19,8 @@ const MyPosts: React.FC<MyPostsPropsType> = ({post, addPostCallBack, newPostText
 
     return (
         <div className={s.content}>
-            <NewPost addPostCallBack={addPostCallBack}
-                     newPostTextCallBack={newPostTextCallBack}
-                     newPostText={newPostText}/>
+            <NewPost newPostText={newPostText}
+                     dispatch={dispatch}/>
             {postElement}
         </div>
     )

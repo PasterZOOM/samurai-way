@@ -1,29 +1,28 @@
 import React, {ChangeEvent} from 'react';
 import s from './NewPost.module.css';
+import {addPostActionCreator, updateNewPostTextActionCreator} from '../../../../../redux/profileReducer';
 
 type NewPostPropsType = {
-    addPostCallBack: (postMessage: string) => void
-    newPostTextCallBack: (newText: string) => void
     newPostText: string
+    dispatch: (action:any) => void
 }
 
-const NewPost: React.FC<NewPostPropsType> = ({addPostCallBack, newPostTextCallBack, newPostText}) => {
+const NewPost: React.FC<NewPostPropsType> = ({ newPostText, dispatch}) => {
 
 
     const addPostOnClick = () => {
-        addPostCallBack(newPostText)
-
+        dispatch(addPostActionCreator())
     }
 
-    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        newPostTextCallBack(e.currentTarget.value)
+    const updateNewPostText = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        dispatch(updateNewPostTextActionCreator(e.currentTarget.value))
     }
 
     return (
         <div className={s.content}>
             <div>
                 <textarea value={newPostText}
-                          onChange={onPostChange}/>
+                          onChange={updateNewPostText}/>
             </div>
             <div>
                 <button onClick={addPostOnClick}>New Post</button>

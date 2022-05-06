@@ -6,20 +6,17 @@ import {ProfilePageType} from '../../../redux/state';
 
 type ProfilePropsType = {
     profilePage: ProfilePageType
-    addPostCallBack: (postMessage: string) => void
-    newPostTextCallBack: (newText:string) => void
+    dispatch: (action:any) => void
 }
 
 const Profile: React.FC<ProfilePropsType> =
-    ({profilePage, addPostCallBack, newPostTextCallBack}) => {
+    ({profilePage,dispatch}) => {
     return (
         <div className={s.content}>
             <ProfileInfo/>
             <MyPosts post={profilePage.post}
                      newPostText={profilePage.newPostText}
-                     addPostCallBack={addPostCallBack}
-                     newPostTextCallBack={newPostTextCallBack}
-            />
+                     dispatch={dispatch}/>
         </div>
     )
 }

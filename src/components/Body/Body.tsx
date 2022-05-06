@@ -10,21 +10,17 @@ import {StateType} from '../../redux/state';
 
 type BodyPropsType = {
     state: StateType
-    addPostCallBack: (postMessage: string) => void
-    addMessageCallBack: (messageText: string) => void
-    newPostTextCallBack: (newText:string) => void
+    dispatch: (action:any) => void
 }
 
-const Body: React.FC<BodyPropsType> = ({state, addPostCallBack, addMessageCallBack, newPostTextCallBack}) => {
+const Body: React.FC<BodyPropsType> = ({state,dispatch}) => {
     return (
         <div className={s.content}>
             <Routes>
                 <Route path="/profile" element={<Profile profilePage={state.profilePage}
-                                                         addPostCallBack={addPostCallBack}
-                                                         newPostTextCallBack={newPostTextCallBack}/>}
-                />
+                                                         dispatch={dispatch}/>}/>
                 <Route path="/dialogs" element={<Dialogs dialogsPage={state.dialogsPage}
-                                                         addMessageCallBack={addMessageCallBack}/>}/>
+                                                         dispatch={dispatch}/>}/>
                 <Route path="/news" element={<News/>}/>
                 <Route path="/music" element={<Music/>}/>
                 <Route path="/setting" element={<Setting/>}/>
