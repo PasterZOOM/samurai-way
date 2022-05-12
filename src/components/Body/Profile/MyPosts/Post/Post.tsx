@@ -6,7 +6,7 @@ type PostPropsType = {
     likes: number
 }
 
-const Post: React.FC<PostPropsType> = ({message, likes}) => {
+export const Post: React.FC<PostPropsType> = ({message, likes}) => {
     return (
         <div className={s.content}>
             <img
@@ -19,5 +19,3 @@ const Post: React.FC<PostPropsType> = ({message, likes}) => {
 
     )
 }
-
-export default Post;

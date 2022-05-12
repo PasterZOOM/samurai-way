@@ -2,7 +2,7 @@ import React from 'react';
 import s from './HatPage.module.css';
 
 
-const HatPage = () => {
+export const HatPage = () => {
     return (
         <div className={s.content}>
             <img
@@ -12,5 +12,3 @@ const HatPage = () => {
     )
 
 }
-
-export default HatPage;

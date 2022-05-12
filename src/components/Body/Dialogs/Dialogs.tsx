@@ -1,17 +1,23 @@
 import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css';
-import Dialog from './Dialog/Dialog';
-import Message from './Message/Message';
-import {DialogsPageType} from '../../../redux/state';
-import {sendNewMessageBodyActionCreator, updateNewMessageBodyActionCreator,} from '../../../redux/dialogsReducer';
+import {Dialog} from './Dialog/Dialog';
+import {Message} from './Message/Message';
+import {DialogsPageType} from '../../../redux/dialogsReducer';
 
 
-type DialogsPropsType = {
+export type DialogsPropsType = {
     dialogsPage: DialogsPageType
-    dispatch: (action: any) => void
+    sendNewMessageBody: () => void
+    updateNewMessageBody: (body: string) => void
 }
 
-const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, dispatch}) => {
+export const Dialogs: React.FC<DialogsPropsType> = (
+    {
+        dialogsPage,
+        sendNewMessageBody, updateNewMessageBody
+    }
+) => {
+
     let dialogsElement =
         dialogsPage.dialogs.map(d => <Dialog key={d.id}
                                              id={d.id}
@@ -21,13 +27,10 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, dispatch}) => {
                                                id={m.id}
                                                message={m.message}/>)
 
-    const addMessageOnClick = () => {
-        dispatch(sendNewMessageBodyActionCreator())
+    const onNewMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        let body = e.currentTarget.value
+        updateNewMessageBody(body)
     }
-    const updateNewMessageBody = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        dispatch(updateNewMessageBodyActionCreator(e.currentTarget.value))
-    }
-
     return (
         <div className={s.dialogs}>
             <div className={s.dialogItems}>
@@ -36,13 +39,11 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage, dispatch}) => {
             <div className={s.messages}>
                 {messagesElement}
                 <textarea value={dialogsPage.newMessageBody}
-                          onChange={updateNewMessageBody}/>
+                          onChange={onNewMessageChange}/>
                 <div>
-                    <button onClick={addMessageOnClick}>Send message</button>
+                    <button onClick={sendNewMessageBody}>Send message</button>
                 </div>
             </div>
         </div>
     )
 }
-
-export default Dialogs;

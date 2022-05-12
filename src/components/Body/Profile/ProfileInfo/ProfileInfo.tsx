@@ -1,10 +1,10 @@
 import React from 'react';
 import s from './Profile.module.css';
-import HatPage from './HatPage/HatPage';
-import Description from './Description/Description';
+import {HatPage} from './HatPage/HatPage';
+import {Description} from './Description/Description';
 
 
-const ProfileInfo = () => {
+export const ProfileInfo = () => {
     return (
         <div className={s.content}>
             <HatPage/>
@@ -13,5 +13,3 @@ const ProfileInfo = () => {
     )
 
 }
-
-export default ProfileInfo;

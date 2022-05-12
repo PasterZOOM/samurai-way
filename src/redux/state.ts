@@ -1,39 +1,12 @@
 import {v1} from 'uuid';
-import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} from './profileReducer';
-import {dialogsReducer, sendNewMessageBodyActionCreator, updateNewMessageBodyActionCreator} from './dialogsReducer';
+import {ProfilePageType, profileReducer} from './profileReducer';
+import {DialogsPageType, dialogsReducer,} from './dialogsReducer';
+import {ActionType} from './reduxStore';
 
-export type PostType = {
-    id: string
-    message: string
-    likes: number
-}
-export type DialogsType = {
-    id: string
-    name: string
-}
-export type MessagesType = {
-    id: string
-    message: string
-}
-export type ProfilePageType = {
-    post: Array<PostType>
-    newPostText: string
-}
-export type DialogsPageType = {
-    dialogs: Array<DialogsType>
-    messages: Array<MessagesType>
-    newMessageBody: string
-}
 export type StateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }
-
-export type ActionType =
-    ReturnType<typeof updateNewPostTextActionCreator>
-    | ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof updateNewMessageBodyActionCreator>
-    | ReturnType<typeof sendNewMessageBodyActionCreator>
 
 export type StoreType = {
     _state: StateType
@@ -42,7 +15,6 @@ export type StoreType = {
     subscribe: (observer: () => void) => void
     dispatch: (action: ActionType) => void
 }
-
 
 let store: StoreType = {
     _state: {

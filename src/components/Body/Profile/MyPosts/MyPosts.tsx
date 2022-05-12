@@ -1,30 +1,30 @@
 import React from 'react';
-import NewPost from './NewPost/NewPost';
-import Post from './Post/Post';
 import s from './MyPosts.module.css';
-import {PostType} from '../../../../redux/state';
+import {ProfilePageType} from '../../../../redux/profileReducer';
+import {NewPost} from './NewPost/NewPost';
+import {Post} from './Post/Post';
+
 
 type MyPostsPropsType = {
-    post: PostType[]
-    newPostText: string
-    dispatch: (action: any) => void
+    profilePage: ProfilePageType
+    addPost: () => void
+    updateNewPostText: (text: string) => void
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = ({post, newPostText, dispatch}) => {
+export const MyPosts: React.FC<MyPostsPropsType> = (
+    {profilePage, addPost, updateNewPostText}) => {
 
     let postElement =
-        post.map(p => <Post key={p.id}
-                            message={p.message}
-                            likes={p.likes}/>)
+        profilePage.post.map(p => <Post key={p.id}
+                                        message={p.message}
+                                        likes={p.likes}/>)
 
     return (
         <div className={s.content}>
-            <NewPost newPostText={newPostText}
-                     dispatch={dispatch}/>
+            <NewPost newPostText={profilePage.newPostText}
+                     addPost={addPost}
+                     updateNewPostText={updateNewPostText}/>
             {postElement}
         </div>
     )
-
 }
-
-export default MyPosts;

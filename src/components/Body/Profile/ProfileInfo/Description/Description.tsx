@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Description.module.css';
 
 
-const Description = () => {
+export const Description = () => {
     return (
         <div className={s.content}>
             ava + description
@@ -10,5 +10,3 @@ const Description = () => {
     )
 
 }
-
-export default Description;
