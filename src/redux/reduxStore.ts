@@ -1,26 +1,12 @@
 import {combineReducers, legacy_createStore as createStore} from 'redux';
-import {AddPostActionCreatorType, profileReducer, UpdateNewPostTextActionCreatorType} from './profileReducer';
-import {
-    dialogsReducer,
-    SendNewMessageBodyActionCreatorType,
-    UpdateNewMessageBodyActionCreatorType
-} from './dialogsReducer';
+import {profileReducer} from './profileReducer';
+import {dialogsReducer} from './dialogsReducer';
 
-export type ReducersType = typeof reducers
+export type StoreType = ReturnType<typeof rootReducers>
 
-export type StoreType = ReturnType<ReducersType>
-
-export type ActionType =
-    SendNewMessageBodyActionCreatorType
-    | UpdateNewMessageBodyActionCreatorType
-    | AddPostActionCreatorType
-    | UpdateNewPostTextActionCreatorType
-
-
-let reducers = combineReducers({
+let rootReducers = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer
 })
 
-
-export let store = createStore(reducers)
+export let store = createStore(rootReducers)

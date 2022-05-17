@@ -2,30 +2,26 @@ import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css';
 import {Dialog} from './Dialog/Dialog';
 import {Message} from './Message/Message';
-import {DialogsPageType} from '../../../redux/dialogsReducer';
+import {mapDispatchToPropsType, mapStateToPropsType} from './DialogsContainer';
 
-
-export type DialogsPropsType = {
-    dialogsPage: DialogsPageType
-    sendNewMessageBody: () => void
-    updateNewMessageBody: (body: string) => void
-}
+export type DialogsPropsType = mapStateToPropsType & mapDispatchToPropsType
 
 export const Dialogs: React.FC<DialogsPropsType> = (
     {
-        dialogsPage,
-        sendNewMessageBody, updateNewMessageBody
+        dialogs, messages,
+        newMessageBody, sendNewMessageBody,
+        updateNewMessageBody
     }
 ) => {
 
     let dialogsElement =
-        dialogsPage.dialogs.map(d => <Dialog key={d.id}
-                                             id={d.id}
-                                             name={d.name}/>)
+        dialogs.map(d => <Dialog key={d.id}
+                                 id={d.id}
+                                 name={d.name}/>)
     let messagesElement =
-        dialogsPage.messages.map(m => <Message key={m.id}
-                                               id={m.id}
-                                               message={m.message}/>)
+        messages.map(m => <Message key={m.id}
+                                   id={m.id}
+                                   message={m.message}/>)
 
     const onNewMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let body = e.currentTarget.value
@@ -38,7 +34,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (
             </div>
             <div className={s.messages}>
                 {messagesElement}
-                <textarea value={dialogsPage.newMessageBody}
+                <textarea value={newMessageBody}
                           onChange={onNewMessageChange}/>
                 <div>
                     <button onClick={sendNewMessageBody}>Send message</button>

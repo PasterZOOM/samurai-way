@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './Body.module.css';
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {Profile} from './Profile/Profile';
 import {News} from './News/News';
 import {Music} from './Music/Music';
@@ -11,6 +11,7 @@ export const Body = () => {
     return (
         <div className={s.content}>
             <Routes>
+                <Route path={'/'} element={<Navigate to="/profile"/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/dialogs" element={<DialogsContainer/>}/>
                 <Route path="/news" element={<News/>}/>
