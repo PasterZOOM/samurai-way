@@ -38,7 +38,8 @@ let initialState = {
     newMessageBody: ''
 }
 
-export const dialogsReducer = (state: initialStateType = initialState, action: DialogsReducerActionType): initialStateType => {
+export const dialogsReducer =
+    (state: initialStateType = initialState, action: DialogsReducerActionType): initialStateType => {
     switch (action.type) {
         case SEND_MESSAGE:
             let newMessage = {id: v1(), message: state.newMessageBody}

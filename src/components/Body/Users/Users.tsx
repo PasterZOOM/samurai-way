@@ -1,94 +1,50 @@
 import React from 'react';
 import s from './Users.module.css'
-import {v1} from 'uuid';
 import {mapDispatchToPropsType, mapStateToPropsType} from './UsersContainer';
-
+import axios from 'axios';
+import userPhoto from './img/userPhoto.png'
 
 export type UsersPropsType = mapStateToPropsType & mapDispatchToPropsType
 
-const Users: React.FC<UsersPropsType> = (
-    {
-        users, follow, unfollow, setUsers
+class Users extends React.Component<UsersPropsType> {
+
+    componentDidMount() {
+        axios.get('https://social-network.samuraijs.com/api/1.0/users')
+            .then(response => {
+                this.props.setUsers(response.data.items)
+            })
     }
-) => {
-    if (users.length === 0) {
-        setUsers([
-            {
-                id: v1(),
-                photoUrl: 'https://sun2.beltelecom-by-minsk.userapi.com/s/v1/ig2/MqXj-7Skelx32X1KmSmMCnSC5Fi6VIPMDvj4Y0fCyy8keZMLHM2LXsmCEh55rfocJevsF7cthbjk56UqJmtgaXPM.jpg?size=200x200&quality=95&crop=295,99,996,996&ava=1',
-                followed: true,
-                name: 'Ilya',
-                status: 'Hello',
-                location: {
-                    country: 'Belarus',
-                    city: 'Zaslavl\''
-                }
-            },
-            {
-                id: v1(),
-                photoUrl: 'https://sun1.beltelecom-by-minsk.userapi.com/s/v1/ig2/0WjwvcCErMIaQDUMoLWF3hXVDF9YdmimGGfCqhRp6rOGz7xMK-Do57YanXLRdPM-hwg2sv3CJAWr5AJ8Pn3iBafT.jpg?size=200x200&quality=96&crop=210,63,948,948&ava=1',
-                followed: false,
-                name: 'Dasha',
-                status: 'I am happy',
-                location: {
-                    country: 'Belarus',
-                    city: 'Zaslavl\''
-                }
-            },
-            {
-                id: v1(),
-                photoUrl: 'https://sun2.beltelecom-by-minsk.userapi.com/s/v1/ig2/MqXj-7Skelx32X1KmSmMCnSC5Fi6VIPMDvj4Y0fCyy8keZMLHM2LXsmCEh55rfocJevsF7cthbjk56UqJmtgaXPM.jpg?size=200x200&quality=95&crop=295,99,996,996&ava=1',
-                followed: false,
-                name: 'Ivan',
-                status: 'Yo',
-                location: {
-                    country: 'Belarus',
-                    city: 'Minsk'
-                }
-            },
-            {
-                id: v1(),
-                photoUrl: 'https://sun2.beltelecom-by-minsk.userapi.com/s/v1/ig2/MqXj-7Skelx32X1KmSmMCnSC5Fi6VIPMDvj4Y0fCyy8keZMLHM2LXsmCEh55rfocJevsF7cthbjk56UqJmtgaXPM.jpg?size=200x200&quality=95&crop=295,99,996,996&ava=1',
-                followed: true,
-                name: 'Pasha',
-                status: 'YoYo',
-                location: {
-                    country: 'Russia',
-                    city: 'Moscow'
-                }
-            },
-        ])
-    }
-    return (
-        <div>
-            {
-                users.map(u => <div key={u.id}>
+
+    render() {
+        return (
+            <div>
+                {
+                    this.props.users.map(u => <div key={u.id}>
                     <span>
-                            <img src={u.photoUrl} className={s.userPhoto} alt={'avatar'}/>
+                            <img src={u.photos.small !== null ? u.photos.small : userPhoto}
+                                 className={s.userPhoto}
+                                 alt={'avatar'}/>
                         <div>
                             {u.followed
-                                ? <button onClick={() => {
-                                    unfollow(u.id)
-                                }}>Unfollow</button>
-                                : <button onClick={() => {
-                                    follow(u.id)
-                                }}>Follow</button>}
+                                ? <button onClick={() => this.props.unfollow(u.id)}>Unfollow</button>
+                                : <button onClick={() => this.props.follow(u.id)}>Follow</button>}
                         </div>
                     </span>
-                    <span>
+                        <span>
                         <span>
                             <div>{u.name}</div>
                             <div>{u.status}</div>
                         </span>
                         <span>
-                            <div>{u.location.country}</div>
-                            <div>{u.location.city}</div>
+                            <div>{'u.location.country'}</div>
+                            <div>{'u.location.city'}</div>
                         </span>
                     </span>
-                </div>)
-            }
-        </div>
-    );
-};
+                    </div>)
+                }
+            </div>
+        )
+    }
+}
 
 export default Users;
