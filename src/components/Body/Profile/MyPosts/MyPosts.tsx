@@ -2,9 +2,14 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import {NewPost} from './NewPost/NewPost';
 import {Post} from './Post/Post';
-import {mapDispatchToPropsType, mapStateToPropsType} from './MyPostsContaiter';
+import {PostType} from '../../../../redux/profileReducer';
 
-export type MyPostsPropsType = mapStateToPropsType & mapDispatchToPropsType
+export type MyPostsPropsType = {
+    posts: Array<PostType>
+    newPostText: string
+    addPost: () => void
+    updateNewPostText: (text: string) => void
+}
 
 export const MyPosts: React.FC<MyPostsPropsType> = (
     {posts, newPostText, addPost, updateNewPostText}) => {
