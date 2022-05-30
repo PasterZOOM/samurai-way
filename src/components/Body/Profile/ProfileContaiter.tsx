@@ -1,16 +1,12 @@
 import {StoreType} from '../../../redux/reduxStore';
-import {addPost, PostType, ProfileType, setUserProfile, updateNewPostText} from '../../../redux/profileReducer';
+import {addPost, ProfileType, setUserProfile, updateNewPostText} from '../../../redux/profileReducer';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import React from 'react';
 import {Profile} from './Profile';
 import {Params, useParams} from 'react-router-dom';
 
-export type mapStateToPropsType = {
-    posts: Array<PostType>
-    newPostText: string
-    profile: ProfileType
-}
+export type mapStateToPropsType = ReturnType<typeof mapStateToProps>
 export type mapDispatchToPropsType = {
     addPost: () => void
     updateNewPostText: (text: string) => void
@@ -47,7 +43,7 @@ class ProfileRequestContainer extends React.Component<ProfileRequestContainerTyp
     }
 }
 
-const mapStateToProps = (state: StoreType): mapStateToPropsType => {
+const mapStateToProps = (state: StoreType) => {
     return ({
         posts: state.profilePage.posts,
         newPostText: state.profilePage.newPostText,
@@ -58,7 +54,6 @@ const mapStateToProps = (state: StoreType): mapStateToPropsType => {
 const WithUrlDataContainerComponent = (props: WithUrlDataContainerComponentType) => {
     return <ProfileRequestContainer {...props} params={useParams()}/>
 }
-
 
 export const ProfileContainer = connect(mapStateToProps, {
     addPost, setUserProfile, updateNewPostText

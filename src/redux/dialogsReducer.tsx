@@ -13,13 +13,9 @@ export type MessageType = {
 }
 export type initialStateType = typeof initialState
 
-export type SendNewMessageBodyACType = {
-    type: typeof SEND_MESSAGE
-}
-export type UpdateNewMessageBodyACType = {
-    type: typeof UPDATE_NEW_MESSAGE_BODY,
-    body: string
-}
+export type SendNewMessageBodyACType = ReturnType<typeof sendNewMessageBodyAC>
+export type UpdateNewMessageBodyACType = ReturnType<typeof updateNewMessageBodyAC>
+
 export type DialogsReducerActionType = SendNewMessageBodyACType | UpdateNewMessageBodyACType
 
 let initialState = {
@@ -40,26 +36,23 @@ let initialState = {
 
 export const dialogsReducer =
     (state: initialStateType = initialState, action: DialogsReducerActionType): initialStateType => {
-    switch (action.type) {
-        case SEND_MESSAGE:
-            let newMessage = {id: v1(), message: state.newMessageBody}
-            return {
-                ...state,
-                messages: [...state.messages, newMessage],
-                newMessageBody: ''
-            }
-        case UPDATE_NEW_MESSAGE_BODY:
-            return {
-                ...state,
-                newMessageBody: action.body
-            }
-        default:
-            return state
+        switch (action.type) {
+            case SEND_MESSAGE:
+                let newMessage = {id: v1(), message: state.newMessageBody}
+                return {
+                    ...state,
+                    messages: [...state.messages, newMessage],
+                    newMessageBody: ''
+                }
+            case UPDATE_NEW_MESSAGE_BODY:
+                return {
+                    ...state,
+                    newMessageBody: action.body
+                }
+            default:
+                return state
+        }
     }
-}
 
-export const sendNewMessageBodyAC = (): SendNewMessageBodyACType => ({type: SEND_MESSAGE})
-export const updateNewMessageBodyAC = (body: string): UpdateNewMessageBodyACType => ({
-    type: UPDATE_NEW_MESSAGE_BODY,
-    body: body
-})
+export const sendNewMessageBodyAC = () => ({type: SEND_MESSAGE} as const)
+export const updateNewMessageBodyAC = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body} as const)

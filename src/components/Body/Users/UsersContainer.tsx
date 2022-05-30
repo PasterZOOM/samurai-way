@@ -14,13 +14,7 @@ import axios from 'axios';
 import Preload from '../../command/Preload/Preload';
 import React from 'react';
 
-export type mapStateToPropsType = {
-    users: Array<UserType>
-    pageSize: number
-    totalUsersCount: number
-    currentPage: number
-    isFetching: boolean
-}
+export type mapStateToPropsType = ReturnType<typeof mapStateToProps>
 export type mapDispatchToPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
@@ -71,7 +65,7 @@ class UsersRequestContainer extends React.Component<UsersRequestContainerType> {
     }
 }
 
-const mapStateToProps = (state: StoreType): mapStateToPropsType => {
+const mapStateToProps = (state: StoreType) => {
     return (
         {
             users: state.usersPage.users,

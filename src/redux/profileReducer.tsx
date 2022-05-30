@@ -34,8 +34,8 @@ export type ProfileType = {
 export type initialStateType = typeof initialState
 
 export type AddPostAT = ReturnType<typeof addPost>
-export type UpdateNewPostTextAT = ReturnType<typeof updateNewPostText>
 export type setUserProfileAT = ReturnType<typeof setUserProfile>
+export type UpdateNewPostTextAT = ReturnType<typeof updateNewPostText>
 
 export type ProfileReducerActionType = AddPostAT | UpdateNewPostTextAT | setUserProfileAT
 
