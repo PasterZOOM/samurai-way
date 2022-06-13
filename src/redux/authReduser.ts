@@ -1,8 +1,13 @@
+import {AppThunkType} from './reduxStore';
+import {authAPI} from '../api/api';
+
 const SET_USER_DARE = 'SET_USER_DARE'
 
-export type initialStateType = typeof initialState
+type initialStateType = typeof initialState
+
 export type setAuthUserDateAT = ReturnType<typeof setAuthUserDate>
-export type AuthReducerActionsType = setAuthUserDateAT
+
+export type AuthReducerAT = setAuthUserDateAT
 
 let initialState = {
     id: '1',
@@ -11,7 +16,7 @@ let initialState = {
     isAuth: false
 }
 
-export const authReducer = (state: initialStateType = initialState, action: AuthReducerActionsType) => {
+export const authReducer = (state: initialStateType = initialState, action: AuthReducerAT) => {
 
     switch (action.type) {
         case SET_USER_DARE:
@@ -25,8 +30,17 @@ export const authReducer = (state: initialStateType = initialState, action: Auth
     }
 }
 
-export const setAuthUserDate = (userId: string, email: string, login: string) => ({
+export const setAuthUserDate = (userId: number, email: string, login: string) => ({
     type: SET_USER_DARE,
     data: {userId, email, login}
 })
 
+export const getAuthUserDate = (): AppThunkType => (dispatch) => {
+    authAPI.me()
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                let {id, email, login} = response.data.data
+                dispatch(setAuthUserDate(id, email, login))
+            }
+        })
+}

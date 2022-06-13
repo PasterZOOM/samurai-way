@@ -2,10 +2,11 @@ import React from 'react';
 import s from './Profile.module.css';
 import {HatPage} from './HatPage/HatPage';
 import {Description} from './Description/Description';
-import {ProfileType} from '../../../../redux/profileReducer';
+import {ProfileType} from '../../../../api/api';
+
 
 type ProfileInfoPropsType = {
-    profile:ProfileType
+    profile: ProfileType
 }
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({profile}) => {

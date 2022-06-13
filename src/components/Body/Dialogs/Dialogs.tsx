@@ -3,6 +3,7 @@ import s from './Dialogs.module.css';
 import {Dialog} from './Dialog/Dialog';
 import {Message} from './Message/Message';
 import {mapDispatchToPropsType, mapStateToPropsType} from './DialogsContainer';
+import {Navigate} from "react-router-dom";
 
 export type DialogsPropsType = mapStateToPropsType & mapDispatchToPropsType
 
@@ -10,7 +11,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (
     {
         dialogs, messages,
         newMessageBody, sendNewMessageBody,
-        updateNewMessageBody
+        updateNewMessageBody, isAuth
     }
 ) => {
 
@@ -27,6 +28,9 @@ export const Dialogs: React.FC<DialogsPropsType> = (
         let body = e.currentTarget.value
         updateNewMessageBody(body)
     }
+
+    if (!isAuth) return <Navigate to="/login"/>
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogItems}>

@@ -1,7 +1,8 @@
 import React from 'react';
 import s from './Description.module.css';
-import {ProfileType} from '../../../../../redux/profileReducer';
+
 import Preload from '../../../../command/Preload/Preload';
+import {ProfileType} from '../../../../../api/api';
 
 type DescriptionType = {
     profile: ProfileType

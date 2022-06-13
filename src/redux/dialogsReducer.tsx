@@ -16,7 +16,7 @@ export type initialStateType = typeof initialState
 export type SendNewMessageBodyACType = ReturnType<typeof sendNewMessageBodyAC>
 export type UpdateNewMessageBodyACType = ReturnType<typeof updateNewMessageBodyAC>
 
-export type DialogsReducerActionType = SendNewMessageBodyACType | UpdateNewMessageBodyACType
+export type DialogsReducerAT = SendNewMessageBodyACType | UpdateNewMessageBodyACType
 
 let initialState = {
     dialogs: [
@@ -35,7 +35,7 @@ let initialState = {
 }
 
 export const dialogsReducer =
-    (state: initialStateType = initialState, action: DialogsReducerActionType): initialStateType => {
+    (state: initialStateType = initialState, action: DialogsReducerAT): initialStateType => {
         switch (action.type) {
             case SEND_MESSAGE:
                 let newMessage = {id: v1(), message: state.newMessageBody}

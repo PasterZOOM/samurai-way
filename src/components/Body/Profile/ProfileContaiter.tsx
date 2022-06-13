@@ -1,16 +1,15 @@
-import {StoreType} from '../../../redux/reduxStore';
-import {addPost, ProfileType, setUserProfile, updateNewPostText} from '../../../redux/profileReducer';
+import {AppRootStateType} from '../../../redux/reduxStore';
+import {addPost, getUserProfile, updateNewPostText} from '../../../redux/profileReducer';
 import {connect} from 'react-redux';
-import axios from 'axios';
 import React from 'react';
 import {Profile} from './Profile';
-import {Params, useParams} from 'react-router-dom';
+import {Params, useParams, Navigate} from 'react-router-dom';
 
 export type mapStateToPropsType = ReturnType<typeof mapStateToProps>
 export type mapDispatchToPropsType = {
     addPost: () => void
     updateNewPostText: (text: string) => void
-    setUserProfile: (profile: ProfileType) => void
+    getUserProfile: (profile: number) => void
 }
 
 export type WithUrlDataContainerComponentType = mapStateToPropsType & mapDispatchToPropsType
@@ -22,15 +21,13 @@ type ProfileRequestContainerType = WithUrlDataContainerComponentType & {
 class ProfileRequestContainer extends React.Component<ProfileRequestContainerType> {
 
     componentDidMount() {
-        const {userId} = this.props.params;
-        axios.get(
-            `https://social-network.samuraijs.com/api/1.0/profile/` + userId)
-            .then(response => {
-                this.props.setUserProfile(response.data)
-            })
+        let {userId} = this.props.params
+        userId && this.props.getUserProfile(+userId)
+
     }
 
     render() {
+        if (!this.props.isAuth) return <Navigate to="/login"/>
         return (
             <Profile {...this.props}
                      profile={this.props.profile}
@@ -43,11 +40,12 @@ class ProfileRequestContainer extends React.Component<ProfileRequestContainerTyp
     }
 }
 
-const mapStateToProps = (state: StoreType) => {
+const mapStateToProps = (state: AppRootStateType) => {
     return ({
         posts: state.profilePage.posts,
         newPostText: state.profilePage.newPostText,
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isAuth: state.auth.isAuth
     })
 }
 
@@ -56,5 +54,5 @@ const WithUrlDataContainerComponent = (props: WithUrlDataContainerComponentType)
 }
 
 export const ProfileContainer = connect(mapStateToProps, {
-    addPost, setUserProfile, updateNewPostText
+    addPost, getUserProfile, updateNewPostText
 })(WithUrlDataContainerComponent)
