@@ -75,6 +75,18 @@ export const toggleFollowingProgress = (followingInProgress: boolean, userId: nu
     userId
 } as const)
 
+
+export const getUsers = (currentPage: number, pageSize: number): AppThunkType => {
+    return (dispatch) => {
+        dispatch(setCurrentPage(currentPage))
+        dispatch(toggleIsFetching(true))
+        usersAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+                dispatch(toggleIsFetching(false))
+                dispatch(setUsers(data.items))
+            })
+    }
+}
 export const follow = (userId: number): AppThunkType => {
     return (dispatch) => {
         dispatch(toggleFollowingProgress(true, userId))
@@ -96,17 +108,6 @@ export const unfollow = (userId: number): AppThunkType => {
                     dispatch(unfollowSuccess(userId))
                 }
                 dispatch(toggleFollowingProgress(false, userId))
-            })
-    }
-}
-export const getUsers = (currentPage: number, pageSize: number): AppThunkType => {
-    return (dispatch) => {
-        dispatch(setCurrentPage(currentPage))
-        dispatch(toggleIsFetching(true))
-        usersAPI.getUsers(currentPage, pageSize)
-            .then(data => {
-                dispatch(toggleIsFetching(false))
-                dispatch(setUsers(data.items))
             })
     }
 }

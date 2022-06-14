@@ -38,12 +38,16 @@ export type ProfileType = {
     }
 }
 
-export type getResponseType = {
+export type getResponseUsersAPIType = {
     items: Array<UserType>,
     totalCount: number,
     error: string | null,
-
-    data:{
+    resultCode: number,
+    messages: Array<string>,
+    data: object,
+} & ProfileType
+export type getResponseAuthAPIType = {
+    data: {
         id: number,
         email: string,
         login: string
@@ -60,30 +64,31 @@ const instance = axios.create({
         }
     }
 )
+
 export const usersAPI = {
     getUsers(currentPage: number, pageSize: number) {
-        return instance.get<getResponseType>(
+        return instance.get<getResponseUsersAPIType>(
             `users?count=${pageSize}&page=${currentPage}`)
             .then(response => response.data)
     },
     unfollow(userId: number) {
-        return instance.delete<getResponseType>(
+        return instance.delete<getResponseUsersAPIType>(
             `follow/${userId}`)
             .then(response => response.data)
     },
     follow(userId: number) {
-        return instance.post<getResponseType>(
+        return instance.post<getResponseUsersAPIType>(
             `follow/${userId}`)
             .then(response => response.data)
     },
     getProfile(userId: number) {
-        return instance.get((`profile/` + userId)
+        return instance.get<getResponseUsersAPIType>((`profile/${userId}`)
         )
     }
 }
 
 export const authAPI = {
     me() {
-        return instance.get<getResponseType>(`auth/me`)
+        return instance.get<getResponseAuthAPIType>(`auth/me`)
     }
 }
