@@ -17,7 +17,7 @@ export type PostType = {
     likes: number
 }
 
-type ResponseType<D> = {
+type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
     data: D
@@ -70,11 +70,11 @@ export const usersAPI = {
             .then(response => response.data)
     },
     unfollow(userId: number) {
-        return instance.delete<ResponseType<{}>>(`follow/${userId}`)
+        return instance.delete<ResponseType>(`follow/${userId}`)
             .then(response => response.data)
     },
     follow(userId: number) {
-        return instance.post<ResponseType<{}>>(`follow/${userId}`)
+        return instance.post<ResponseType>(`follow/${userId}`)
             .then(response => response.data)
     },
     getProfile(userId: number) {

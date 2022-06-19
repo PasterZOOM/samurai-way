@@ -28,7 +28,7 @@ let initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [1, 2]
+    followingInProgress: [] as Array<number>
 }
 
 export const usersReducer = (state: InitialStateType = initialState, action: UsersReducerAT): InitialStateType => {
