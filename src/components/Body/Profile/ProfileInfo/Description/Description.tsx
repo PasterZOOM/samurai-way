@@ -2,10 +2,10 @@ import React from 'react';
 import s from './Description.module.css';
 
 import Preload from '../../../../command/Preload/Preload';
-import {ProfileType} from '../../../../../api/api';
+import {getProfileResponseType} from '../../../../../api/api';
 
 type DescriptionType = {
-    profile: ProfileType
+    profile: getProfileResponseType
 }
 
 export const Description: React.FC<DescriptionType> = ({profile}) => {
@@ -18,7 +18,6 @@ export const Description: React.FC<DescriptionType> = ({profile}) => {
             <h2>{profile.fullName}</h2>
             <p>
                 <b>About me: </b>
-                <span>{profile.aboutMe}</span>
             </p>
             <p>
                 <b>Looking for a job: </b>

@@ -1,12 +1,12 @@
-import React from 'react';
-import s from './Profile.module.css';
-import {ProfileInfo} from './ProfileInfo/ProfileInfo';
+import React from 'react'
+import s from './Profile.module.css'
+import {ProfileInfo} from './ProfileInfo/ProfileInfo'
 
-import {MyPosts} from './MyPosts/MyPosts';
-import {PostType, ProfileType} from '../../../api/api';
+import {MyPosts} from './MyPosts/MyPosts'
+import {getProfileResponseType, PostType} from '../../../api/api'
 
 type ProfilePropsType = {
-    profile: ProfileType
+    profile: getProfileResponseType
     posts: Array<PostType>
     newPostText: string
     addPost: () => void

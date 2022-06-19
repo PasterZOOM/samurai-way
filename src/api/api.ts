@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export type UserType = {
     id: number
@@ -16,79 +16,74 @@ export type PostType = {
     message: string
     likes: number
 }
-export type ProfileType = {
-    aboutMe: string,
+
+type ResponseType<D> = {
+    resultCode: number
+    messages: Array<string>
+    data: D
+}
+type getUsersResponseType = {
+    items: Array<UserType>
+    totalCount: number
+    followed: boolean
+}
+export type getProfileResponseType = {
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
     contacts: {
-        facebook: string,
-        website: string,
-        vk: string,
-        twitter: string,
-        instagram: string,
-        youtube: string,
-        github: string,
+        github: string
+        vk: string
+        facebook: string
+        instagram: string
+        twitter: string
+        website: string
+        youtube: string
         mainLink: string
-    },
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    userId: number,
+    }
     photos: {
-        small: string,
+        small: string
         large: string
+
     }
 }
-
-export type getResponseUsersAPIType = {
-    items: Array<UserType>,
-    totalCount: number,
-    error: string | null,
-    resultCode: number,
-    messages: Array<string>,
-    data: object,
-} & ProfileType
-export type getResponseAuthAPIType = {
-    data: {
-        id: number,
-        email: string,
-        login: string
-    }
-    resultCode: number,
-    messages: Array<string>
+type getAuthMeResponseType = {
+    id: number
+    email: string
+    login: string
 }
 
 const instance = axios.create({
         withCredentials: true,
         baseURL: 'https://social-network.samuraijs.com/api/1.0/',
         headers: {
-            'API-KEY': 'f969fb73-d16f-48ed-9f38-3bf68d40ab5c'
+            'API-KEY': '38a59e07-59b4-45d3-8d3c-f82bb3a752f7'
         }
     }
 )
 
 export const usersAPI = {
     getUsers(currentPage: number, pageSize: number) {
-        return instance.get<getResponseUsersAPIType>(
+        return instance.get<getUsersResponseType>(
             `users?count=${pageSize}&page=${currentPage}`)
             .then(response => response.data)
     },
     unfollow(userId: number) {
-        return instance.delete<getResponseUsersAPIType>(
-            `follow/${userId}`)
+        return instance.delete<ResponseType<{}>>(`follow/${userId}`)
             .then(response => response.data)
     },
     follow(userId: number) {
-        return instance.post<getResponseUsersAPIType>(
-            `follow/${userId}`)
+        return instance.post<ResponseType<{}>>(`follow/${userId}`)
             .then(response => response.data)
     },
     getProfile(userId: number) {
-        return instance.get<getResponseUsersAPIType>((`profile/${userId}`)
-        )
+        return instance.get<getProfileResponseType>((`profile/${userId}`))
     }
 }
 
 export const authAPI = {
     me() {
-        return instance.get<getResponseAuthAPIType>(`auth/me`)
+        return instance.get<ResponseType<getAuthMeResponseType>>(`auth/me`)
     }
 }

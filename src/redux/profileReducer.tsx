@@ -1,5 +1,5 @@
 import {v1} from 'uuid'
-import {PostType, ProfileType, usersAPI} from '../api/api'
+import {PostType, getProfileResponseType, usersAPI} from '../api/api'
 import {AppThunkType} from './reduxStore';
 
 export const ADD_POST = 'ADD_POST'
@@ -21,7 +21,6 @@ let initialState = {
     ] as Array<PostType>,
     newPostText: '',
     profile: {
-        aboutMe: '',
         contacts: {
             facebook: '',
             website: '',
@@ -66,7 +65,7 @@ export const profileReducer = (state: initialStateType = initialState, action: P
 
 export const addPost = () => ({type: ADD_POST} as const)
 export const updateNewPostText = (text: string) => ({type: UPDATE_NEW_POST_TEXT, newText: text} as const)
-export const setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
+export const setUserProfile = (profile: getProfileResponseType) => ({type: SET_USER_PROFILE, profile} as const)
 
 export const getUserProfile = (userId: number): AppThunkType => (dispatch) => {
     usersAPI.getProfile(userId)

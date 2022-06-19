@@ -1,5 +1,5 @@
 import {usersAPI, UserType} from '../api/api'
-import {AppThunkType} from './reduxStore';
+import {AppThunkType} from './reduxStore'
 
 export const FOLLOW = 'FOLLOW'
 export const UNFOLLOW = 'UNFOLLOW'
@@ -82,9 +82,9 @@ export const getUsers = (currentPage: number, pageSize: number): AppThunkType =>
         dispatch(toggleIsFetching(true))
         usersAPI.getUsers(currentPage, pageSize)
             .then(data => {
-                dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))
             })
+            .finally(() => dispatch(toggleIsFetching(false)))
     }
 }
 export const follow = (userId: number): AppThunkType => {
@@ -92,11 +92,12 @@ export const follow = (userId: number): AppThunkType => {
         dispatch(toggleFollowingProgress(true, userId))
         usersAPI.follow(userId)
             .then(data => {
+                console.log(data)
                 if (data.resultCode === 0) {
                     dispatch(followSuccess(userId))
                 }
-                dispatch(toggleFollowingProgress(false, userId))
             })
+            .finally(() => dispatch(toggleFollowingProgress(false, userId)))
     }
 }
 export const unfollow = (userId: number): AppThunkType => {
@@ -107,7 +108,7 @@ export const unfollow = (userId: number): AppThunkType => {
                 if (data.resultCode === 0) {
                     dispatch(unfollowSuccess(userId))
                 }
-                dispatch(toggleFollowingProgress(false, userId))
             })
+            .finally(() => dispatch(toggleFollowingProgress(false, userId)))
     }
 }
