@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import s from './Users.module.css'
 import userPhoto from './img/userPhoto.png'
-import {NavLink} from 'react-router-dom';
-import {UserType} from '../../../api/api';
+import {NavLink} from 'react-router-dom'
+import {UserType} from '../../../api/api'
 
 
 export type UsersPropsType = {
