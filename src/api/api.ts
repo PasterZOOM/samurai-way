@@ -53,10 +53,16 @@ type getAuthMeResponseType = {
     email: string
     login: string
 }
+type getStatusResponseType = string
+type updateStatusResponseType={
+    resultCode: number
+    messages: string[],
+    data: object
+}
 
 const instance = axios.create({
         withCredentials: true,
-        baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+        baseURL: 'https://social-network.samuraijs.com/api/1.0',
         headers: {
             'API-KEY': '38a59e07-59b4-45d3-8d3c-f82bb3a752f7'
         }
@@ -70,15 +76,24 @@ export const usersAPI = {
             .then(response => response.data)
     },
     unfollow(userId: number) {
-        return instance.delete<ResponseType>(`follow/${userId}`)
+        return instance.delete<ResponseType>(`/follow/${userId}`)
             .then(response => response.data)
     },
     follow(userId: number) {
-        return instance.post<ResponseType>(`follow/${userId}`)
+        return instance.post<ResponseType>(`/follow/${userId}`)
             .then(response => response.data)
-    },
+    }
+}
+
+export const profileAPI = {
     getProfile(userId: number) {
-        return instance.get<getProfileResponseType>((`profile/${userId}`))
+        return instance.get<getProfileResponseType>(`/profile/${userId}`)
+    },
+    getStatus(userId: number) {
+        return instance.get<getStatusResponseType>(`/profile/status/${userId}`)
+    },
+    updateStatus (status:string) {
+        return instance.put<updateStatusResponseType>(`/profile/status`, {status})
     }
 }
 

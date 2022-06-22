@@ -1,13 +1,14 @@
-import React from 'react';
-import s from './Body.module.css';
-import {Navigate, Route, Routes} from 'react-router-dom';
-import {News} from './News/News';
-import {Music} from './Music/Music';
-import {Setting} from './Setting/Setting';
-import {DialogsContainer} from './Dialogs/DialogsContainer';
-import {UsersContainer} from './Users/UsersContainer';
-import {ProfileContainer} from './Profile/ProfileContaiter';
-import {Login} from './Login/Login';
+import React from 'react'
+import s from './Body.module.css'
+import {Navigate, Route, Routes} from 'react-router-dom'
+import {News} from './News/News'
+import {Music} from './Music/Music'
+import {Setting} from './Setting/Setting'
+import {DialogsContainer} from './Dialogs/DialogsContainer'
+import {UsersContainer} from './Users/UsersContainer'
+import {ProfileContainer} from './Profile/ProfileContaiter'
+import {Login} from './Login/Login'
+
 
 export const Body = () => {
     return (

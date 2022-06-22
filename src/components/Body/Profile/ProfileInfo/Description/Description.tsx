@@ -3,18 +3,22 @@ import s from './Description.module.css';
 
 import Preload from '../../../../command/Preload/Preload';
 import {getProfileResponseType} from '../../../../../api/api';
+import {ProfileStatus} from './ProfileStatus/ProfileStatus'
 
 type DescriptionType = {
+    status:string
     profile: getProfileResponseType
+    updateStatus: (newStatus: string) => void
 }
 
-export const Description: React.FC<DescriptionType> = ({profile}) => {
+export const Description: React.FC<DescriptionType> = ({profile, updateStatus, status}) => {
     if (!profile) {
         return <Preload/>
     }
     return (
         <div className={s.content}>
             <img src={profile.photos.large} alt="avatar"/>
+            <ProfileStatus status={status} updateStatus={updateStatus}/>
             <h2>{profile.fullName}</h2>
             <p>
                 <b>About me: </b>
