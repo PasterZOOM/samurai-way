@@ -1,15 +1,15 @@
-import './App.css';
-import {Navbar} from './components/Navbar/Navbar';
-import {Body} from './components/Body/Body';
-import React from 'react';
-import {HeaderContainer} from './components/Header/HeaderContainer';
+import './App.css'
+import {Navbar} from './components/Navbar/Navbar'
+import {Body} from './components/Body/Body'
+import React from 'react'
+import {Header} from './components/Header/Header'
 
 export const App = () => {
     return (
         <div className="app-wrapper">
-            <HeaderContainer/>
+            <Header/>
             <Navbar/>
             <Body/>
         </div>
-    );
+    )
 }

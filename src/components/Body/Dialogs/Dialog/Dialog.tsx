@@ -3,8 +3,6 @@ import s from './Dialog.module.css';
 import {NavLink} from 'react-router-dom';
 import {DialogType} from '../../../../redux/dialogsReducer';
 
-
-
 export const Dialog: React.FC<DialogType> = ({id, name}) => {
     return (
         <div className={s.dialog}>

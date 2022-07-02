@@ -1,31 +1,43 @@
-import React, {ChangeEvent} from 'react';
-import s from './NewPost.module.css';
+import React from 'react'
+import s from './NewPost.module.css'
+import {Field, InjectedFormProps, reduxForm, reset} from 'redux-form'
+import {useAppDispatch} from '../../../../../hooks/hooks'
+import {addPostAC} from '../../../../../redux/profileReducer'
+import {Textarea} from '../../../../common/FormsControls/FormsControls'
+import {maxLength300, required} from '../../../../../utils/validators/validators'
 
-type NewPostPropsType = {
-    newPostText: string
-    addPost: () => void
-    updateNewPostText: (text: string) => void
-}
-
-export const NewPost: React.FC<NewPostPropsType> = (
-    {newPostText, addPost, updateNewPostText}) => {
-
-
-    const onNewPostText = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let text = e.currentTarget.value
-        updateNewPostText(text)
+export const NewPost = () => {
+    const dispatch = useAppDispatch()
+    const addNewPost = (formData: FormDataType) => {
+        dispatch(addPostAC(formData.newPostText))
+        dispatch(reset('profileAddNewPostFormRedux'))
     }
 
     return (
         <div className={s.content}>
-            <div>
-                <textarea value={newPostText}
-                          onChange={onNewPostText}/>
-            </div>
-            <div>
-                <button onClick={addPost}>New Post</button>
-            </div>
+            <AddNewPostFormRedux onSubmit={addNewPost}/>
         </div>
     )
-
 }
+
+type FormDataType = {
+    newPostText: string
+}
+
+const AddPostForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field name={'newPostText'}
+                       component={Textarea}
+                       placeholder={'New post text'}
+                       validate={[required, maxLength300]}/>
+            </div>
+            <div>
+                <button>New Post</button>
+            </div>
+        </form>
+    )
+}
+
+const AddNewPostFormRedux = reduxForm<FormDataType>({form: 'profileAddNewPostFormRedux'})(AddPostForm)

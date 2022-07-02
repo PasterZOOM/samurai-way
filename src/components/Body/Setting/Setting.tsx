@@ -1,9 +1,11 @@
-import React from 'react';
+import React from 'react'
+import {withAuthRedirect} from '../../hoc/withAuthRedirect'
 
-export const Setting = () => {
+export const SettingForRedirect = () => {
     return (
         <div>
             Setting
         </div>
     )
 }
+export const Setting = withAuthRedirect(SettingForRedirect)

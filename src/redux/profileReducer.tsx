@@ -9,19 +9,17 @@ export const SET_STATUS = 'SET_STATUS'
 
 export type initialStateType = typeof initialState
 
-export type AddPostAT = ReturnType<typeof addPost>
-export type setStatusAT = ReturnType<typeof setStatus>
-export type setUserProfileAT = ReturnType<typeof setUserProfile>
-export type UpdateNewPostTextAT = ReturnType<typeof updateNewPostText>
+export type AddPostAT = ReturnType<typeof addPostAC>
+export type setStatusAT = ReturnType<typeof setStatusAC>
+export type setUserProfileAT = ReturnType<typeof setUserProfileAC>
 
-export type ProfileReducerAT = AddPostAT | setStatusAT | setUserProfileAT | UpdateNewPostTextAT
+export type ProfileReducerAT = AddPostAT | setStatusAT | setUserProfileAT
 
 let initialState = {
     posts: [
         {id: v1(), message: 'Its my first post', likes: 32},
         {id: v1(), message: 'Its my second post', likes: 54}
     ] as Array<PostType>,
-    newPostText: '',
     profile: {
         contacts: {
             facebook: '',
@@ -48,16 +46,10 @@ let initialState = {
 export const profileReducer = (state: initialStateType = initialState, action: ProfileReducerAT): initialStateType => {
     switch (action.type) {
         case ADD_POST:
-            let newPost = {id: v1(), message: state.newPostText, likes: 0}
+            let newPost = {id: v1(), message: action.newPostText, likes: 0}
             return {
                 ...state,
                 posts: [newPost, ...state.posts],
-                newPostText: ''
-            }
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText: action.newText
             }
         case SET_USER_PROFILE:
             return {...state, profile: action.profile}
@@ -68,29 +60,27 @@ export const profileReducer = (state: initialStateType = initialState, action: P
     }
 }
 
-export const addPost = () => ({type: ADD_POST} as const)
-export const setStatus = (status: string) => ({type: SET_STATUS, status} as const)
-export const updateNewPostText = (text: string) => ({type: UPDATE_NEW_POST_TEXT, newText: text} as const)
-export const setUserProfile = (profile: getProfileResponseType) => ({type: SET_USER_PROFILE, profile} as const)
-
+export const addPostAC = (newPostText: string) => ({type: ADD_POST, newPostText} as const)
+export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
+export const setUserProfileAC = (profile: getProfileResponseType) => ({type: SET_USER_PROFILE, profile} as const)
 
 export const getUserProfile = (userId: number): AppThunkType => (dispatch) => {
     profileAPI.getProfile(userId)
         .then(response => {
-            dispatch(setUserProfile(response.data))
+            dispatch(setUserProfileAC(response.data))
         })
 }
-export const getStatus = (userId:number): AppThunkType => (dispatch) => {
+export const getStatus = (userId: number): AppThunkType => (dispatch) => {
     profileAPI.getStatus(userId)
         .then(response => {
-            dispatch(setStatus(response.data))
+            dispatch(setStatusAC(response.data))
         })
 }
 export const updateStatus = (status: string): AppThunkType => (dispatch) => {
     profileAPI.updateStatus(status)
         .then(response => {
             if (response.data.resultCode === 0) {
-                dispatch(setStatus(status))
+                dispatch(setStatusAC(status))
             }
         })
 }

@@ -4,20 +4,22 @@ import {Navigate, Route, Routes} from 'react-router-dom'
 import {News} from './News/News'
 import {Music} from './Music/Music'
 import {Setting} from './Setting/Setting'
-import {DialogsContainer} from './Dialogs/DialogsContainer'
-import {UsersContainer} from './Users/UsersContainer'
-import {ProfileContainer} from './Profile/ProfileContaiter'
 import {Login} from './Login/Login'
-
+import {Dialogs} from './Dialogs/Dialogs'
+import {Profile} from './Profile/Profile'
+import {Users} from './Users/Users'
+import {useAppSelector} from '../../hooks/hooks'
 
 export const Body = () => {
+    const authUserId = useAppSelector(state => state.auth.id)
+
     return (
         <div className={s.content}>
             <Routes>
-                <Route path={'/'} element={<Navigate to="/profile"/>}/>
-                <Route path="/profile/:userId" element={<ProfileContainer/>}/>
-                <Route path="/dialogs" element={<DialogsContainer/>}/>
-                <Route path="/users" element={<UsersContainer/>}/>
+                <Route path={'/'} element={<Navigate to={"/profile/" + authUserId}/>}/>
+                <Route path="/profile/:userId" element={<Profile/>}/>
+                <Route path="/dialogs" element={<Dialogs/>}/>
+                <Route path="/users" element={<Users/>}/>
                 <Route path="/news" element={<News/>}/>
                 <Route path="/music" element={<Music/>}/>
                 <Route path="/setting" element={<Setting/>}/>

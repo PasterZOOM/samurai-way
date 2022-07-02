@@ -1,61 +1,56 @@
-import React, {ChangeEvent} from 'react'
+import React, {useState} from 'react'
+import {useAppDispatch, useAppSelector} from '../../../../../../hooks/hooks'
+import {updateStatus} from '../../../../../../redux/profileReducer'
+import {Field, InjectedFormProps, reduxForm} from 'redux-form'
+import {Input} from '../../../../../common/FormsControls/FormsControls'
+import {maxLength300, required} from '../../../../../../utils/validators/validators'
 
-type ProfileStatusPropsType = {
-    status: string
-    updateStatus: (newStatus: string) => void
+export const ProfileStatus = () => {
+    const dispatch = useAppDispatch()
+
+    const status = useAppSelector(state => state.profilePage.status)
+
+    const [editMode, setEditMode] = useState(false)
+
+    const activateEditMode = () => {
+        setEditMode(true)
+    }
+
+    const deactivateEditMode = (formData: FormDataType) => {
+        dispatch(updateStatus(formData.status))
+        setEditMode(false)
+    }
+
+    return (
+        <div>
+            {!editMode &&
+                <div>
+                    <span onDoubleClick={activateEditMode}>{status || 'No Status'}</span>
+                </div>
+            }
+            {editMode &&
+                <StatusReduxForm onSubmit={deactivateEditMode}/>
+            }
+        </div>
+    )
 }
 
-type stateType = {
-    editMode: boolean
-    status: string
+type FormDataType = {
+    status: string,
 }
 
-export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
-
-    state: stateType = {
-        editMode: false,
-        status: this.props.status
-    }
-
-    activateEditMode = () => {
-        this.setState({
-            editMode: true
-        })
-    }
-    deactivateEditMode = () => {
-        this.setState({
-            editMode: false
-        })
-        this.props.updateStatus(this.state.status)
-    }
-    onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        this.setState({status: e.currentTarget.value})
-    }
-
-    componentDidUpdate(prevProps: ProfileStatusPropsType, prevStates: stateType) {
-
-        if (prevProps.status !== this.props.status)
-            this.setState({
-                status: this.props.status
-            })
-
-    }
-
-    render() {
-        return (
+const StatusForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit}) => {
+    return (
+        <form onSubmit={handleSubmit}>
             <div>
-                {!this.state.editMode &&
-                    <div>
-                        <span onDoubleClick={this.activateEditMode}>{this.props.status || 'No Status'}</span>
-                    </div>
-                }
-                {this.state.editMode &&
-                    <div>
-                        <input onChange={this.onStatusChange} autoFocus value={this.state.status}
-                               onBlur={this.deactivateEditMode}/>
-                    </div>
-                }
+                <Field name={'status'}
+                       component={Input}
+                       props={{autoFocus: true}}
+                       validate={[required, maxLength300]}
+                />
             </div>
-        )
-    }
+        </form>
+    )
 }
+
+const StatusReduxForm = reduxForm<FormDataType>({form: 'status'})(StatusForm)

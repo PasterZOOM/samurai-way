@@ -1,24 +1,22 @@
-import React from 'react';
-import s from './Description.module.css';
-
-import Preload from '../../../../command/Preload/Preload';
-import {getProfileResponseType} from '../../../../../api/api';
+import React from 'react'
+import s from './Description.module.css'
+import Preload from '../../../../common/Preload/Preload'
 import {ProfileStatus} from './ProfileStatus/ProfileStatus'
+import {useAppSelector} from '../../../../../hooks/hooks'
 
-type DescriptionType = {
-    status:string
-    profile: getProfileResponseType
-    updateStatus: (newStatus: string) => void
-}
+export const Description = () => {
+    const profile = useAppSelector(state => state.profilePage.profile)
 
-export const Description: React.FC<DescriptionType> = ({profile, updateStatus, status}) => {
     if (!profile) {
         return <Preload/>
     }
+
     return (
         <div className={s.content}>
             <img src={profile.photos.large} alt="avatar"/>
-            <ProfileStatus status={status} updateStatus={updateStatus}/>
+
+            <ProfileStatus/>
+
             <h2>{profile.fullName}</h2>
             <p>
                 <b>About me: </b>
@@ -37,10 +35,7 @@ export const Description: React.FC<DescriptionType> = ({profile, updateStatus, s
                 {profile.contacts.youtube && <p><b>YouTube:</b> {profile.contacts.youtube}</p>}
                 {profile.contacts.github && <p><b>GitHub:</b> {profile.contacts.github}</p>}
                 {profile.contacts.mainLink && <p><b>MainLink:</b> {profile.contacts.mainLink}</p>}
-
             </div>
-
         </div>
     )
-
 }

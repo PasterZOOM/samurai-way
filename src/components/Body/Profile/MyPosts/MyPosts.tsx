@@ -1,19 +1,11 @@
-import React from 'react';
-import s from './MyPosts.module.css';
-import {NewPost} from './NewPost/NewPost';
-import {Post} from './Post/Post';
-import {PostType} from '../../../../api/api';
+import React from 'react'
+import s from './MyPosts.module.css'
+import {NewPost} from './NewPost/NewPost'
+import {Post} from './Post/Post'
+import {useAppSelector} from '../../../../hooks/hooks'
 
-
-export type MyPostsPropsType = {
-    posts: Array<PostType>
-    newPostText: string
-    addPost: () => void
-    updateNewPostText: (text: string) => void
-}
-
-export const MyPosts: React.FC<MyPostsPropsType> = (
-    {posts, newPostText, addPost, updateNewPostText}) => {
+export const MyPosts = () => {
+    const posts = useAppSelector(state => state.profilePage.posts)
 
     let postElement =
         posts.map(p => <Post key={p.id}
@@ -22,9 +14,7 @@ export const MyPosts: React.FC<MyPostsPropsType> = (
 
     return (
         <div className={s.content}>
-            <NewPost newPostText={newPostText}
-                     addPost={addPost}
-                     updateNewPostText={updateNewPostText}/>
+            <NewPost/>
             {postElement}
         </div>
     )
