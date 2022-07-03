@@ -43,8 +43,8 @@ export const UsersForRedirect = () => {
     }
     
     useEffect(() => {
-        dispatch(getUsersTC(pages[0], pageSize))
-    }, [])
+        dispatch(getUsersTC(currentPage, pageSize))
+    }, [dispatch, pageSize, currentPage])
 
     return (
         <div>{isFetching ? <Preload/> :
