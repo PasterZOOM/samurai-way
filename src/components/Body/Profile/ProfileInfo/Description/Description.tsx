@@ -1,18 +1,19 @@
 import React from 'react'
-import s from './Description.module.css'
+import styles from './Description.module.css'
 import Preload from '../../../../common/Preload/Preload'
 import {ProfileStatus} from './ProfileStatus/ProfileStatus'
 import {useAppSelector} from '../../../../../hooks/hooks'
+import {getProfile} from '../../../../../redux/profileSelectors'
 
 export const Description = () => {
-    const profile = useAppSelector(state => state.profilePage.profile)
+    const profile = useAppSelector(getProfile)
 
     if (!profile) {
         return <Preload/>
     }
 
     return (
-        <div className={s.content}>
+        <div className={styles.content}>
             <img src={profile.photos.large} alt="avatar"/>
 
             <ProfileStatus/>

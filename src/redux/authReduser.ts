@@ -1,6 +1,7 @@
 import {AppThunkType} from './reduxStore'
 import {authAPI} from '../api/api'
 import {stopSubmit} from 'redux-form'
+import {initializedSuccess} from './appReduser'
 
 const SET_USER_DARE = 'SET_USER_DARE'
 
@@ -35,16 +36,18 @@ export const setAuthUserDateAC = (id: number, email: string, login: string, isAu
     payload: {id, email, login, isAuth}
 })
 
-export const getAuthUserDateTC = (): AppThunkType => (dispatch) => {
+export const getAuthUserDateTC = (): AppThunkType => (dispatch) =>
     authAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
                 let {id, email, login} = response.data.data
                 dispatch(setAuthUserDateAC(id, email, login, true))
+                dispatch(initializedSuccess())
             }
         })
-}
-export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => (dispatch) => {
+
+
+export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => (dispatch) =>
     authAPI.login(email, password, rememberMe)
         .then(response => {
             if (response.data.resultCode === 0) {
@@ -54,12 +57,11 @@ export const login = (email: string, password: string, rememberMe: boolean): App
                 dispatch(stopSubmit('login', {_error: message}))
             }
         })
-}
-export const logout = (): AppThunkType => (dispatch) => {
+
+export const logout = (): AppThunkType => (dispatch) =>
     authAPI.logout()
         .then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDateAC(0, '', '', false))
             }
         })
-}

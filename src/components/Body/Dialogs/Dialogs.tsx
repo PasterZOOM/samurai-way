@@ -8,6 +8,7 @@ import {sendNewMessageBodyAC} from '../../../redux/dialogsReducer'
 import {maxLength300, required} from '../../../utils/validators/validators'
 import {withAuthRedirect} from '../../hoc/withAuthRedirect'
 import {Textarea} from '../../common/FormsControls/FormsControls'
+import {getDialogs, getMessages} from '../../../redux/dialogsSelectors'
 
 type FormDataType = {
     newMessageBody: string
@@ -16,9 +17,8 @@ type FormDataType = {
 export const DialogsForRedirect = () => {
     const dispatch = useAppDispatch()
 
-    const dialogs = useAppSelector(state => state.dialogsPage.dialogs)
-    const messages = useAppSelector(state => state.dialogsPage.messages)
-
+    const dialogs = useAppSelector(getDialogs)
+    const messages = useAppSelector(getMessages)
 
     let dialogsElement =
         dialogs.map(dialog => <Dialog key={dialog.id}

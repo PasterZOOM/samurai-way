@@ -68,46 +68,44 @@ export const unfollowSuccessAC = (userId: number) => ({type: UNFOLLOW, userId} a
 export const setUsersAC = (users: Array<UserType>) => ({type: SET_USERS, users} as const)
 export const setCurrentPageAC = (currentPage: number) => ({type: SET_CURRENT_PAGE, currentPage} as const)
 export const toggleIsFetchingAC = (isFetching: boolean) => ({type: TOGGLE_IS_FETCHING, isFetching} as const)
-export const setTotalUsersCountAC = (totalUsersCount: number) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount} as const)
+export const setTotalUsersCountAC = (totalUsersCount: number) => ({
+    type: SET_TOTAL_USERS_COUNT,
+    totalUsersCount
+} as const)
 export const toggleFollowingProgressAC = (followingInProgress: boolean, userId: number) => ({
     type: TOGGLE_IS_FOLLOWING_PROGRESS,
     followingInProgress,
     userId
 } as const)
 
-export const getUsersTC = (currentPage: number, pageSize: number): AppThunkType => {
-    return (dispatch) => {
-        dispatch(setCurrentPageAC(currentPage))
-        dispatch(toggleIsFetchingAC(true))
-        usersAPI.getUsers(currentPage, pageSize)
-            .then(data => {
-                dispatch(setUsersAC(data.items))
-                dispatch(setTotalUsersCountAC(data.totalCount))
-            })
-            .finally(() => dispatch(toggleIsFetchingAC(false)))
-    }
+export const getUsersTC = (currentPage: number, pageSize: number): AppThunkType => (dispatch) => {
+    dispatch(setCurrentPageAC(currentPage))
+    dispatch(toggleIsFetchingAC(true))
+    usersAPI.getUsers(currentPage, pageSize)
+        .then(data => {
+            dispatch(setUsersAC(data.items))
+            dispatch(setTotalUsersCountAC(data.totalCount))
+        })
+        .finally(() => dispatch(toggleIsFetchingAC(false)))
 }
-export const followTC = (userId: number): AppThunkType => {
-    return (dispatch) => {
-        dispatch(toggleFollowingProgressAC(true, userId))
-        usersAPI.follow(userId)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(followSuccessAC(userId))
-                }
-            })
-            .finally(() => dispatch(toggleFollowingProgressAC(false, userId)))
-    }
+export const followTC = (userId: number): AppThunkType => (dispatch) => {
+    dispatch(toggleFollowingProgressAC(true, userId))
+    usersAPI.follow(userId)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(followSuccessAC(userId))
+            }
+        })
+        .finally(() => dispatch(toggleFollowingProgressAC(false, userId)))
 }
-export const unfollowTC = (userId: number): AppThunkType => {
-    return (dispatch) => {
-        dispatch(toggleFollowingProgressAC(true, userId))
-        usersAPI.unfollow(userId)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(unfollowSuccessAC(userId))
-                }
-            })
-            .finally(() => dispatch(toggleFollowingProgressAC(false, userId)))
-    }
+export const unfollowTC = (userId: number): AppThunkType => (dispatch) => {
+    dispatch(toggleFollowingProgressAC(true, userId))
+    usersAPI.unfollow(userId)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unfollowSuccessAC(userId))
+            }
+        })
+        .finally(() => dispatch(toggleFollowingProgressAC(false, userId)))
 }
+

@@ -64,12 +64,11 @@ export const addPostAC = (newPostText: string) => ({type: ADD_POST, newPostText}
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
 export const setUserProfileAC = (profile: getProfileResponseType) => ({type: SET_USER_PROFILE, profile} as const)
 
-export const getUserProfile = (userId: number): AppThunkType => (dispatch) => {
+export const getUserProfile = (userId: number): AppThunkType => (dispatch) =>
     profileAPI.getProfile(userId)
         .then(response => {
             dispatch(setUserProfileAC(response.data))
         })
-}
 export const getStatus = (userId: number): AppThunkType => (dispatch) => {
     profileAPI.getStatus(userId)
         .then(response => {

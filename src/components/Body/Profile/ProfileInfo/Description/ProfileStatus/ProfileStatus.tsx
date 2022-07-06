@@ -4,11 +4,12 @@ import {updateStatus} from '../../../../../../redux/profileReducer'
 import {Field, InjectedFormProps, reduxForm} from 'redux-form'
 import {Input} from '../../../../../common/FormsControls/FormsControls'
 import {maxLength300, required} from '../../../../../../utils/validators/validators'
+import {getStatus} from '../../../../../../redux/profileSelectors'
 
 export const ProfileStatus = () => {
     const dispatch = useAppDispatch()
 
-    const status = useAppSelector(state => state.profilePage.status)
+    const status = useAppSelector(getStatus)
 
     const [editMode, setEditMode] = useState(false)
 

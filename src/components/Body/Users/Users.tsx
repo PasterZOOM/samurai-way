@@ -6,16 +6,24 @@ import {useAppDispatch, useAppSelector} from '../../../hooks/hooks'
 import Preload from '../../common/Preload/Preload'
 import {followTC, getUsersTC, unfollowTC} from '../../../redux/usersReducer'
 import {withAuthRedirect} from '../../hoc/withAuthRedirect'
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from '../../../redux/usersSelectors'
 
 export const UsersForRedirect = () => {
     const dispatch = useAppDispatch()
 
-    const isFetching = useAppSelector(state => state.usersPage.isFetching)
-    const followingInProgress = useAppSelector(state => state.usersPage.followingInProgress)
-    const currentPage = useAppSelector(state => state.usersPage.currentPage)
-    const totalUsersCount = useAppSelector(state => state.usersPage.totalUsersCount)
-    const pageSize = useAppSelector(state => state.usersPage.pageSize)
-    const users = useAppSelector(state => state.usersPage.users)
+    const isFetching = useAppSelector(getIsFetching)
+    const followingInProgress = useAppSelector(getFollowingInProgress)
+    const currentPage = useAppSelector(getCurrentPage)
+    const totalUsersCount = useAppSelector(getTotalUsersCount)
+    const pageSize = useAppSelector(getPageSize)
+    const users = useAppSelector(getUsers)
 
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
     let pages: Array<number> = []
@@ -41,7 +49,7 @@ export const UsersForRedirect = () => {
     const unfollow = (userId: number) => {
         dispatch(unfollowTC(userId))
     }
-    
+
     useEffect(() => {
         dispatch(getUsersTC(currentPage, pageSize))
     }, [dispatch, pageSize, currentPage])

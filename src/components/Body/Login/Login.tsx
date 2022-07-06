@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from '../../../hooks/hooks'
 import {login} from '../../../redux/authReduser'
 import {Navigate} from 'react-router-dom'
 import { Input } from '../../common/FormsControls/FormsControls'
+import {getId, getIsAuth} from '../../../redux/authSelectors'
 
 type FormDataType = {
     email: string
@@ -48,7 +49,9 @@ const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
 
 export const Login = () => {
     const dispatch = useAppDispatch()
-    const isAuth = useAppSelector(state => state.auth.isAuth)
+
+    const authUserId = useAppSelector(getId)
+    const isAuth = useAppSelector(getIsAuth)
 
     const onSubmit = (formData: FormDataType) => {
         dispatch(login(formData.email, formData.password, formData.rememberMe))
@@ -56,7 +59,7 @@ export const Login = () => {
 
     return (
         <>
-            {isAuth ? <Navigate to="/"/>
+            {isAuth ? <Navigate to={"/profile/" + authUserId}/>
                 : <>
                     <h1>LOGIN</h1>
                     <LoginReduxForm onSubmit={onSubmit}/>

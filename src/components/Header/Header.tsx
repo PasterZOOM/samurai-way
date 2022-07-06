@@ -1,23 +1,21 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import styles from './Header.module.css'
 import logo from '../../assets/images/HeadLogo.png'
 import {NavLink} from 'react-router-dom'
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks'
-import {getAuthUserDateTC, logout} from '../../redux/authReduser'
+import {logout} from '../../redux/authReduser'
+import {getIsAuth, getLogin} from '../../redux/authSelectors'
 
 export const Header = () => {
     const dispatch = useAppDispatch()
 
-    const isAuth = useAppSelector(state => state.auth.isAuth)
-    const login = useAppSelector(state => state.auth.login)
+    const login = useAppSelector(getLogin)
+    const isAuth = useAppSelector(getIsAuth)
 
     const onClickLogoutButton = () => {
         dispatch(logout())
     }
 
-    useEffect(() => {
-        dispatch(getAuthUserDateTC())
-    }, [dispatch])
 
     return (
         <header className={styles.header}>

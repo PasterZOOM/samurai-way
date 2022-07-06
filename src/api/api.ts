@@ -17,12 +17,12 @@ export type PostType = {
     likes: number
 }
 
-type ResponseType<D = {}> = {
+export type ResponseApiType<D = {}> = {
     resultCode: number
     messages: Array<string>
     data: D
 }
-type getUsersResponseType = {
+export type getUsersResponseType = {
     items: Array<UserType>
     totalCount: number
     followed: boolean
@@ -48,13 +48,13 @@ export type getProfileResponseType = {
 
     }
 }
-type getAuthMeResponseType = {
+export type getAuthMeResponseType = {
     id: number
     email: string
     login: string
 }
-type getStatusResponseType = string
-type updateStatusResponseType={
+export type getStatusResponseType = string
+export type updateStatusResponseType={
     resultCode: number
     messages: string[],
     data: object
@@ -76,11 +76,11 @@ export const usersAPI = {
             .then(response => response.data)
     },
     unfollow(userId: number) {
-        return instance.delete<ResponseType>(`/follow/${userId}`)
+        return instance.delete<ResponseApiType>(`/follow/${userId}`)
             .then(response => response.data)
     },
     follow(userId: number) {
-        return instance.post<ResponseType>(`/follow/${userId}`)
+        return instance.post<ResponseApiType>(`/follow/${userId}`)
             .then(response => response.data)
     }
 }
@@ -99,7 +99,7 @@ export const profileAPI = {
 
 export const authAPI = {
     me() {
-        return instance.get<ResponseType<getAuthMeResponseType>>(`auth/me`)
+        return instance.get<ResponseApiType<getAuthMeResponseType>>(`auth/me`)
     },
     login(email:string, password:string, rememberMe:boolean = false) {
         return instance.post('auth/login', {email, password, rememberMe})
