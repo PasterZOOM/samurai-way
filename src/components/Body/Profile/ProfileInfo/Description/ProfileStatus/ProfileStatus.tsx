@@ -1,9 +1,6 @@
-import React, {useState} from 'react'
+import React, {ChangeEvent, FocusEvent, useEffect, useState} from 'react'
 import {useAppDispatch, useAppSelector} from '../../../../../../hooks/hooks'
 import {updateStatus} from '../../../../../../redux/profileReducer'
-import {Field, InjectedFormProps, reduxForm} from 'redux-form'
-import {Input} from '../../../../../common/FormsControls/FormsControls'
-import {maxLength300, required} from '../../../../../../utils/validators/validators'
 import {getStatus} from '../../../../../../redux/profileSelectors'
 
 export const ProfileStatus = () => {
@@ -12,15 +9,21 @@ export const ProfileStatus = () => {
     const status = useAppSelector(getStatus)
 
     const [editMode, setEditMode] = useState(false)
+    const [value, setValue] = useState(status)
 
     const activateEditMode = () => {
         setEditMode(true)
     }
-
-    const deactivateEditMode = (formData: FormDataType) => {
-        dispatch(updateStatus(formData.status))
+    const deactivateEditMode = (e: FocusEvent<HTMLInputElement, Element>) => {
+        dispatch(updateStatus(e.currentTarget.value))
         setEditMode(false)
     }
+    const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.value)
+    }
+    useEffect(() => {
+        setValue(status)
+    }, [status])
 
     return (
         <div>
@@ -30,28 +33,10 @@ export const ProfileStatus = () => {
                 </div>
             }
             {editMode &&
-                <StatusReduxForm onSubmit={deactivateEditMode}/>
+                <input value={value}
+                       onChange={onStatusChange}
+                       onBlur={deactivateEditMode}/>
             }
         </div>
     )
 }
-
-type FormDataType = {
-    status: string,
-}
-
-const StatusForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit}) => {
-    return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <Field name={'status'}
-                       component={Input}
-                       props={{autoFocus: true}}
-                       validate={[required, maxLength300]}
-                />
-            </div>
-        </form>
-    )
-}
-
-const StatusReduxForm = reduxForm<FormDataType>({form: 'status'})(StatusForm)
