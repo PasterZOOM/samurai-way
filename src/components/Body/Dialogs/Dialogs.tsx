@@ -9,6 +9,8 @@ import {maxLength300, required} from '../../../utils/validators/validators'
 import {withAuthRedirect} from '../../hoc/withAuthRedirect'
 import {Textarea} from '../../common/FormsControls/FormsControls'
 import {getDialogs, getMessages} from '../../../redux/dialogsSelectors'
+import {Navigate} from 'react-router-dom'
+import {getIsAuth} from '../../../redux/authSelectors'
 
 type FormDataType = {
     newMessageBody: string
@@ -17,30 +19,27 @@ type FormDataType = {
 export const DialogsForRedirect = () => {
     const dispatch = useAppDispatch()
 
+    const isAuth = useAppSelector(getIsAuth)
     const dialogs = useAppSelector(getDialogs)
     const messages = useAppSelector(getMessages)
-
-    let dialogsElement =
-        dialogs.map(dialog => <Dialog key={dialog.id}
-                                      id={dialog.id}
-                                      name={dialog.name}/>)
-    let messagesElement =
-        messages.map(message => <Message key={message.id}
-                                         id={message.id}
-                                         message={message.message}/>)
 
     const addNewMessage = (formData: FormDataType) => {
         dispatch(sendNewMessageBodyAC(formData.newMessageBody))
         dispatch(reset('dialogAddMessageForm'))
     }
+    if (!isAuth) return <Navigate to="/login"/>
 
     return (
         <div className={s.dialogs}>
             <div className={s.dialogItems}>
-                {dialogsElement}
+                {dialogs.map(dialog => <Dialog key={dialog.id}
+                                               id={dialog.id}
+                                               name={dialog.name}/>)}
             </div>
             <div className={s.messages}>
-                {messagesElement}
+                {messages.map(message => <Message key={message.id}
+                                                  id={message.id}
+                                                  message={message.message}/>)}
                 <AddMessageFormRedux onSubmit={addNewMessage} clearSubmit={() => {
                 }}/>
             </div>

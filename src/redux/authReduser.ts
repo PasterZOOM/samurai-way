@@ -18,7 +18,6 @@ let initialState = {
 }
 
 export const authReducer = (state: initialStateType = initialState, action: AuthReducerAT) => {
-
     switch (action.type) {
         case SET_USER_DARE:
             return {
@@ -35,31 +34,25 @@ export const setAuthUserDateAC = (id: number, email: string, login: string, isAu
     payload: {id, email, login, isAuth}
 })
 
-export const getAuthUserDateTC = (): AppThunkType<Promise<void>> => (dispatch) =>
-    authAPI.me()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                let {id, email, login} = response.data.data
-                dispatch(setAuthUserDateAC(id, email, login, true))
-            }
-        })
-
-
-export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => (dispatch) =>
-    authAPI.login(email, password, rememberMe)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(getAuthUserDateTC())
-            } else {
-                let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
-                dispatch(stopSubmit('login', {_error: message}))
-            }
-        })
-
-export const logout = (): AppThunkType => (dispatch) =>
-    authAPI.logout()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setAuthUserDateAC(0, '', '', false))
-            }
-        })
+export const getAuthUserDateTC = (): AppThunkType<Promise<void>> => async (dispatch) => {
+    const response = await authAPI.me()
+    if (response.data.resultCode === 0) {
+        let {id, email, login} = response.data.data
+        dispatch(setAuthUserDateAC(id, email, login, true))
+    }
+}
+export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => async (dispatch) => {
+    const response = await authAPI.login(email, password, rememberMe)
+    if (response.data.resultCode === 0) {
+        dispatch(getAuthUserDateTC())
+    } else {
+        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+        dispatch(stopSubmit('login', {_error: message}))
+    }
+}
+export const logout = (): AppThunkType => async (dispatch) => {
+    const response = await authAPI.logout()
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserDateAC(0, '', '', false))
+    }
+}

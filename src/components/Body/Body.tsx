@@ -27,7 +27,6 @@ export const Body = () => {
                 <Route path="/setting" element={<Setting/>}/>
                 <Route path="/login" element={<Login/>}/>
             </Routes>
-
         </div>
     )
 }

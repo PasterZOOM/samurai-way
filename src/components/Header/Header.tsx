@@ -16,7 +16,6 @@ export const Header = () => {
         dispatch(logout())
     }
 
-
     return (
         <header className={styles.header}>
             <img
