@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
 import {App} from './App'
-import {BrowserRouter} from 'react-router-dom'
+import {HashRouter} from 'react-router-dom'
 import {store} from './redux/reduxStore'
 import {Provider} from 'react-redux'
 
@@ -12,10 +12,10 @@ const root = ReactDOM.createRoot(
 )
 
 root.render(
-    <BrowserRouter>
+    <HashRouter>
         <Provider store={store}>
             <App/>
         </Provider>
-    </BrowserRouter>,
+    </HashRouter>,
 )
 reportWebVitals()

@@ -47,8 +47,6 @@ export const DialogsForRedirect = () => {
     )
 }
 
-export const Dialogs = withAuthRedirect(DialogsForRedirect)
-
 const AddMessageForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit}) => {
     return (
         <form onSubmit={handleSubmit}>
@@ -66,3 +64,5 @@ const AddMessageForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit
 }
 
 const AddMessageFormRedux = reduxForm<FormDataType>({form: 'dialogAddMessageForm'})(AddMessageForm)
+
+export default withAuthRedirect(DialogsForRedirect)

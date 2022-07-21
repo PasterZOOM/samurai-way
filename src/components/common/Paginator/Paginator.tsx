@@ -1,18 +1,24 @@
-import React from 'react'
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
 import {getUsersTC} from '../../../redux/usersReducer'
-import {useAppDispatch, useAppSelector} from '../../../hooks/hooks'
-import s from '../../Body/Users/Users.module.css'
-import {getCurrentPage, getPageSize, getTotalUsersCount} from '../../../redux/usersSelectors'
+import {useAppDispatch} from '../../../hooks/hooks'
+import styles from '../../Body/Users/Users.module.css'
 
-export const Paginator = () => {
+type PaginatorPropsType = {
+    pageSize: number
+    totalItemsCount: number
+    currentPage: number
+}
+
+export const Paginator: React.FC<PaginatorPropsType> = ({
+                                                            pageSize,
+                                                            totalItemsCount,
+                                                            currentPage
+                                                        }) => {
+    const [page, setPage] = useState(currentPage)
     const dispatch = useAppDispatch()
+    const pagesCount = Math.ceil(totalItemsCount / pageSize)
+    const pages: Array<number> = []
 
-    const totalUsersCount = useAppSelector(getTotalUsersCount)
-    const currentPage = useAppSelector(getCurrentPage)
-    const pageSize = useAppSelector(getPageSize)
-
-    let pagesCount = Math.ceil(totalUsersCount / pageSize)
-    let pages: Array<number> = []
     if (currentPage <= 3) {
         for (let i = 1; i <= 7; i++) {
             pages.push(i)
@@ -29,16 +35,28 @@ export const Paginator = () => {
     const onPageChanged = (pageNumber: number) => {
         dispatch(getUsersTC(pageNumber, pageSize))
     }
+    const inChangeInputNumberHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.currentTarget.valueAsNumber > pagesCount) setPage(Math.floor(pagesCount))
+        else if (e.currentTarget.valueAsNumber < 1) setPage(1)
+        else setPage(e.currentTarget.valueAsNumber)
+    }
+    const onKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+        e.key === 'Enter' && onPageChanged(page)
+    }
 
     return (
         <div>
             {pages.map(page =>
                 <span key={page}
-                      className={currentPage === page ? s.selectedPage : ''}
+                      className={currentPage === page ? styles.selectedPage : styles.page}
                       onClick={() => onPageChanged(page)}>
                         {page}
                     </span>
             )}
+            <input type="number" min={1} max={pagesCount} value={page}
+                   onChange={inChangeInputNumberHandler}
+                   onKeyUp={onKeyEnter}/>
+            <button onClick={() => onPageChanged(Math.floor(page))}>go</button>
         </div>
     )
 }

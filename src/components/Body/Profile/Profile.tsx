@@ -27,4 +27,4 @@ export const ProfileForRedirect = () => {
         </div>
     )
 }
-export const Profile = withAuthRedirect(ProfileForRedirect)
+export default withAuthRedirect(ProfileForRedirect)

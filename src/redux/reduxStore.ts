@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, legacy_createStore} from 'redux'
+import {applyMiddleware, combineReducers, compose, legacy_createStore} from 'redux'
 import {profileReducer, ProfileReducerAT} from './profileReducer'
 import {dialogsReducer, DialogsReducerAT} from './dialogsReducer'
 import {usersReducer, UsersReducerAT} from './usersReducer'
@@ -15,12 +15,20 @@ let rootReducer = combineReducers({
     app: appReducer,
     form: formReducer
 })
+// @ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-export let store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware))
+export let store = legacy_createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)))
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
-export type AppActionsType = UsersReducerAT | ProfileReducerAT | DialogsReducerAT | AuthReducerAT | FormAction | AppReducerAT
+export type AppActionsType =
+    UsersReducerAT
+    | ProfileReducerAT
+    | DialogsReducerAT
+    | AuthReducerAT
+    | FormAction
+    | AppReducerAT
 
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AppActionsType>
 
