@@ -1,8 +1,8 @@
 import React from 'react'
 import s from './Navbar.module.css'
 import {NavLink} from 'react-router-dom'
-import {useAppSelector} from '../../hooks/hooks'
-import {getId} from '../../redux/authSelectors'
+import {useAppSelector} from 'hooks/hooks'
+import {getId} from 'redux/authSelectors'
 
 type ActionType = {
     [key: string]: boolean

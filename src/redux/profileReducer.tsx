@@ -1,11 +1,17 @@
 import {v1} from 'uuid'
-import {getProfileResponseType, PostType, profileAPI} from '../api/api'
+import {
+    getProfileResponseType,
+    PostType,
+    profileAPI,
+    updatePhotoResponseType
+} from 'api/api'
 import {AppThunkType} from './reduxStore'
 
 export const ADD_POST = 'ADD_POST'
 export const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT'
 export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 export const SET_STATUS = 'SET_STATUS'
+export const UPDATE_PHOTO = 'UPDATE_PHOTO'
 export const DELETE_POST = 'DELETE_POST'
 
 export type InitialStateType = typeof initialState
@@ -14,8 +20,14 @@ export type AddPostAT = ReturnType<typeof addPostAC>
 export type setStatusAT = ReturnType<typeof setStatusAC>
 export type setUserProfileAT = ReturnType<typeof setUserProfileAC>
 export type deletePostAT = ReturnType<typeof deletePostAC>
+export type setPhotoAT = ReturnType<typeof setPhotoAC>
 
-export type ProfileReducerAT = AddPostAT | setStatusAT | setUserProfileAT | deletePostAT
+export type ProfileReducerAT =
+    AddPostAT
+    | setStatusAT
+    | setUserProfileAT
+    | deletePostAT
+    | setPhotoAT
 
 let initialState = {
     posts: [
@@ -59,6 +71,8 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
             return {...state, profile: action.profile}
         case SET_STATUS:
             return {...state, status: action.status}
+        case UPDATE_PHOTO:
+            return {...state, profile: {...state.profile, ...action.photos}}
         default:
             return state
     }
@@ -67,7 +81,14 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
 export const addPostAC = (newPostText: string) => ({type: ADD_POST, newPostText} as const)
 export const deletePostAC = (postId: string) => ({type: DELETE_POST, postId} as const)
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
-export const setUserProfileAC = (profile: getProfileResponseType) => ({type: SET_USER_PROFILE, profile} as const)
+export const setPhotoAC = (photos: updatePhotoResponseType) => ({
+    type: UPDATE_PHOTO,
+    photos
+} as const)
+export const setUserProfileAC = (profile: getProfileResponseType) => ({
+    type: SET_USER_PROFILE,
+    profile
+} as const)
 
 export const getUserProfile = (userId: number): AppThunkType => async (dispatch) => {
     const response = await profileAPI.getProfile(userId)
@@ -81,5 +102,11 @@ export const updateStatus = (status: string): AppThunkType => async (dispatch) =
     const response = await profileAPI.updateStatus(status)
     if (response.data.resultCode === 0) {
         dispatch(setStatusAC(status))
+    }
+}
+export const updatePhoto = (photo: File): AppThunkType => async (dispatch) => {
+    const response = await profileAPI.updatePhoto(photo)
+    if (response.data.resultCode === 0) {
+        dispatch(setPhotoAC(response.data.data))
     }
 }

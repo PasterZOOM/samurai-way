@@ -1,7 +1,7 @@
-import React, {ChangeEvent, FocusEvent, useEffect, useState} from 'react'
-import {updateStatus} from '../../../../../redux/profileReducer'
-import {getStatus} from '../../../../../redux/profileSelectors'
-import {useAppDispatch, useAppSelector} from '../../../../../hooks/hooks'
+import React, {ChangeEvent, FocusEvent, useState} from 'react'
+import {updateStatus} from 'redux/profileReducer'
+import {getStatus} from 'redux/profileSelectors'
+import {useAppDispatch, useAppSelector} from 'hooks/hooks'
 
 export const ProfileStatus = () => {
     const dispatch = useAppDispatch()
@@ -13,6 +13,7 @@ export const ProfileStatus = () => {
 
     const activateEditMode = () => {
         setEditMode(true)
+        setValue(status)
     }
     const deactivateEditMode = (e: FocusEvent<HTMLInputElement, Element>) => {
         dispatch(updateStatus(e.currentTarget.value))
@@ -21,9 +22,6 @@ export const ProfileStatus = () => {
     const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
     }
-    useEffect(() => {
-        setValue(status)
-    }, [status])
 
     return (
         <div>

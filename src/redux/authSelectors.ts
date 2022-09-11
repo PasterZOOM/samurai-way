@@ -1,5 +1,5 @@
 import {AppRootStateType} from './reduxStore'
 
-export const getId = (state: AppRootStateType) => state.auth.id
-export const getLogin = (state: AppRootStateType) => state.auth.login
-export const getIsAuth = (state: AppRootStateType) => state.auth.isAuth
+export const getId = (state: AppRootStateType): number => state.auth.id
+export const getLogin = (state: AppRootStateType): string => state.auth.login
+export const getIsAuth = (state: AppRootStateType): boolean => state.auth.isAuth

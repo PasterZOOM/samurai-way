@@ -45,7 +45,6 @@ export type getProfileResponseType = {
     photos: {
         small: string
         large: string
-
     }
 }
 export type getAuthMeResponseType = {
@@ -54,10 +53,16 @@ export type getAuthMeResponseType = {
     login: string
 }
 export type getStatusResponseType = string
-export type updateStatusResponseType={
+export type updateStatusResponseType = {
     resultCode: number
     messages: string[],
     data: object
+}
+export type updatePhotoResponseType = {
+    photos: {
+        small: string
+        large: string
+    }
 }
 
 const instance = axios.create({
@@ -92,16 +97,25 @@ export const profileAPI = {
     getStatus(userId: number) {
         return instance.get<getStatusResponseType>(`/profile/status/${userId}`)
     },
-    updateStatus (status:string) {
+    updateStatus(status: string) {
         return instance.put<updateStatusResponseType>(`/profile/status`, {status})
-    }
+    },
+    updatePhoto(photo: File) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        return instance.put<ResponseApiType<updatePhotoResponseType>>(`/profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
 }
 
 export const authAPI = {
     me() {
         return instance.get<ResponseApiType<getAuthMeResponseType>>(`auth/me`)
     },
-    login(email:string, password:string, rememberMe:boolean = false) {
+    login(email: string, password: string, rememberMe: boolean = false) {
         return instance.post('auth/login', {email, password, rememberMe})
     },
     logout() {
